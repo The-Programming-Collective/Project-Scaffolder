@@ -1,0 +1,32 @@
+{
+  "projectName": "MyProject",
+  "schema":
+  [
+    {
+      "name": "Flask",
+      "content": [
+        {
+          "name": "README.md",
+          "content": "Hello World"
+        },
+        {
+          "name": "app.py",
+          "content": "print('Hello World')"
+        },
+        {
+          "name": "templates",
+          "content": [
+            {
+              "name": "index.html",
+              "content": "<h1>Hello World</h1>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "React",
+      "content": []
+    }
+  ]
+}
