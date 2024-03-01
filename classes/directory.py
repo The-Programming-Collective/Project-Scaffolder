@@ -4,16 +4,19 @@ from classes.schema import Schema
 class Directory(Schema):
     def __init__(self, name) -> None:
         super().__init__(name)
-        self.childern = []
+        self.children = []
 
     def add(self, child) -> None:
-        self.childern.append(child)
+        self.children.append(child)
 
     def remove(self, child: Schema) -> None:
-        self.childern.remove(child)
+        self.children.remove(child)
 
     def print_structure(self, level=0):
         
         print(" " * level, self.name, "->")
-        for child in self.childern:
+        for child in self.children:
             child.print_structure(level + 1)
+    
+    def __iter__(self):
+        return iter(self.children)

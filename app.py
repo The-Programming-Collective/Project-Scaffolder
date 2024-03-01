@@ -2,6 +2,7 @@ import io
 import json
 import os
 from flask import Flask, jsonify, render_template, current_app
+from jinja2 import Template
 import shutil
 from classes.directory import Directory
 from classes.file import File
@@ -44,16 +45,100 @@ def download_file(project_path):
         },
     )
 
-test = Directory("test")
-test.add(File("test1.txt"))
-test.add(File("test2.txt"))
-test.add(Directory("testDir"))
-test.childern[2].add(File("test3.txt"))
+def render_schema_template(schema, project_name):
+    # Jinja template string
+    template_str = """
+    {
+      "projectName": "{{ projectName }}",
+      "schema": [
+        {
+          "root": "{{ schema.name }}",
+          "content": [
+            {% for entry in schema %}
+            {
+                "name": "{{ entry.name }}",
+                {% if entry.children %}
+                "content": [
+                    {% for subitem in entry.children %}
+                        {
+                        "name": "{{ subitem.name }}",
+                        {% if subitem.children %}
+                            "content": [
+                            {% for file_item in subitem.children %}
+                                {
+                                "name": "{{ file_item.name }}",
+                                "content": "{{ file_item.content }}"
+                                }{% if not loop.last %},{% endif %}
+                            {% endfor %}
+                            ]
+                        {% else %}
+                        "content": "{{ subitem.content }}"
+                        {% endif %}
+                    }{% if not loop.last %},{% endif %}
+                {% endfor %}
+                ]
+                {% else %}
+                "content": "{{ entry.content }}"
+                {% endif %}
+            }{% if not loop.last %},{% endif %}
+            {% endfor %}
+          ]
+        }
+      ]
+    }
+    """
+    # Create a Jinja template
+    template = Template(template_str)
+
+    # Render the template with the provided schema and project name
+    rendered_template = template.render(schema=schema, projectName=project_name)
+
+    return rendered_template
+
+# New method to render the HTML
+def render_html_template(rendered_schema, project_name):
+    # Jinja template string for the HTML
+    html_template_str = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ projectName }} Schema</title>
+    </head>
+    <body>
+        <h1>{{ projectName }} Schema</h1>
+
+        <pre>{{ renderedSchema }}</pre>
+    </body>
+    </html>
+    """
+
+    # Create a Jinja template
+    html_template = Template(html_template_str)
+
+    # Render the HTML template with the provided data
+    rendered_html = html_template.render(projectName=project_name, renderedSchema=rendered_schema)
+
+    return rendered_html
+
+test = Directory("myroot")
+test.add(File("file1.txt"))
+test.add(File("file2.txt"))
+test.add(Directory("dir1"))
+test.add(Directory("dir2"))
+test.children[2].add(File("file3.txt")) #dir1
+test.children[2].add(Directory("dir3"))
+test.children[2].children[1].add(File("file4"))
+test.children[2].children[1].add(File("file5"))
 
 @app.route("/test", methods=["GET"])
 def lol():
-    schema_str = test.print_structure()
-    return jsonify({"schema": schema_str})
+    rendered_schema = render_schema_template(test,"testproject")
+    rendered_html = render_html_template(rendered_schema,"myProject")
+
+    return rendered_html
 
 
 if __name__ == "__main__":
