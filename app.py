@@ -2,7 +2,7 @@ import io
 import json
 import os
 from flask import Flask, jsonify, render_template, current_app
-from jinja2 import Template
+from jinja2 import Template,Environment ,FileSystemLoader
 import shutil
 from classes.directory import Directory
 from classes.file import File
@@ -97,26 +97,12 @@ def render_schema_template(schema, project_name):
 
 # New method to render the HTML
 def render_html_template(rendered_schema, project_name):
-    # Jinja template string for the HTML
-    html_template_str = """
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ projectName }} Schema</title>
-    </head>
-    <body>
-        <h1>{{ projectName }} Schema</h1>
 
-        <pre>{{ renderedSchema }}</pre>
-    </body>
-    </html>
-    """
+    # Create a Jinja environment
+    env = Environment(loader=FileSystemLoader("./templates"))
 
-    # Create a Jinja template
-    html_template = Template(html_template_str)
+    # Load the template
+    html_template = env.get_template("schema.html")
 
     # Render the HTML template with the provided data
     rendered_html = html_template.render(projectName=project_name, renderedSchema=rendered_schema)
