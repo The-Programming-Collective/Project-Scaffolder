@@ -1,6 +1,5 @@
 from classes.schema import Schema
 
-
 class Directory(Schema):
     def __init__(self, name) -> None:
         super().__init__(name)
@@ -13,7 +12,6 @@ class Directory(Schema):
         self.children.remove(child)
 
     def print_structure(self, level=0):
-        
         print(" " * level, self.name, "->")
         for child in self.children:
             child.print_structure(level + 1)

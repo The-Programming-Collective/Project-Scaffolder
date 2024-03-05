@@ -1,1 +1,4 @@
 venv
+site-packages
+# *cache*
+backend/pyvenv.cfg

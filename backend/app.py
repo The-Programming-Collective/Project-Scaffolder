@@ -6,6 +6,7 @@ from jinja2 import Template,Environment ,FileSystemLoader
 import shutil
 from classes.directory import Directory
 from classes.file import File
+from classes.schema import Schema
 
 app = Flask(__name__)
 
