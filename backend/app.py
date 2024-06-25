@@ -1,12 +1,10 @@
-import io
-import json
 import os
 from flask import Flask, jsonify, render_template, current_app
 from jinja2 import Template,Environment ,FileSystemLoader
 import shutil
 from classes.directory import Directory
 from classes.file import File
-from classes.schema import Schema
+from util import randomword
 
 app = Flask(__name__)
 
@@ -17,16 +15,30 @@ def helloWorld():
 
 
 @app.route("/download", methods=["GET"])
-def download_file(project_path):
-    directory_path = os.path.join(app.root_path, "temp", "project")
-    os.mkdir(directory_path)
-    file_path = os.path.join(directory_path, "test.txt")
-    file_writer = open(file_path, "w")
-    file_writer.write("Hello World")
-    file_writer.close()
+def download_file():
+    # os.mkdir(directory_path)
+    # file_path = os.path.join(directory_path, "test.txt")
+    # file_writer = open(file_path, "w")
+    # file_writer.write("Hello World")
+    # file_writer.close()
+    randName = randomword(10)
+    test = Directory(randName)
+    test.add(Directory("myroot"))
+    testActual = test.children[0]
+    testActual.add(File("file1.txt"))
+    testActual.add(File("file2.txt"))
+    testActual.add(Directory("dir1"))
+    testActual.add(Directory("dir2"))
+    testActual.children[2].add(File("file3.txt"))
+    testActual.children[2].add(Directory("dir3"))
+    testActual.children[2].children[1].add(File("file4"))
+    testActual.children[2].children[1].add(File("file5"))
+
+    directory_path = os.path.join(app.root_path, "temp", test.name)
+    test.create(directory_path)
 
     # Zip file
-    target_path = os.path.join(app.root_path, "temp", "project")
+    target_path = os.path.join(app.root_path, "temp", test.name)
     file_path = shutil.make_archive(target_path, "zip", directory_path)
     file_handle = open(target_path + ".zip", "rb")
 

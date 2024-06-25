@@ -15,6 +15,12 @@ class Directory(Schema):
         print(" " * level, self.name, "->")
         for child in self.children:
             child.print_structure(level + 1)
+            
+    def create(self,path):
+        import os
+        os.mkdir(path)
+        for child in self.children:
+            child.create(os.path.join(path,child.name))
     
     def __iter__(self):
         return iter(self.children)
