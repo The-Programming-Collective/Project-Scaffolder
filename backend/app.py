@@ -8,7 +8,6 @@ from util import randomword
 
 app = Flask(__name__)
 
-
 @app.route("/")
 def helloWorld():
     return render_template("index.html")
@@ -62,44 +61,40 @@ def render_schema_template(schema, project_name):
     # Jinja template string
     template_str = """
     {
-      "projectName": "{{ projectName }}",
-      "schema": [
+      "name": "{{ schema.name }}",
+      "children": [
+        {% for entry in schema.children %}
         {
-          "root": "{{ schema.name }}",
-          "content": [
-            {% for entry in schema %}
-            {
-                "name": "{{ entry.name }}",
-                {% if entry.children %}
-                "content": [
-                    {% for subitem in entry.children %}
-                        {
-                        "name": "{{ subitem.name }}",
-                        {% if subitem.children %}
-                            "content": [
-                            {% for file_item in subitem.children %}
-                                {
-                                "name": "{{ file_item.name }}",
-                                "content": "{{ file_item.content }}"
-                                }{% if not loop.last %},{% endif %}
-                            {% endfor %}
-                            ]
-                        {% else %}
-                        "content": "{{ subitem.content }}"
-                        {% endif %}
-                    }{% if not loop.last %},{% endif %}
-                {% endfor %}
-                ]
-                {% else %}
-                "content": "{{ entry.content }}"
-                {% endif %}
-            }{% if not loop.last %},{% endif %}
+            "name": "{{ entry.name }}",
+            {% if entry.children %}
+            "children": [
+                {% for subitem in entry.children %}
+                    {
+                    "name": "{{ subitem.name }}",
+                    {% if subitem.children %}
+                        "children": [
+                        {% for file_item in subitem.children %}
+                            {
+                            "name": "{{ file_item.name }}",
+                            "content": "{{ file_item.content }}"
+                            }{% if not loop.last %},{% endif %}
+                        {% endfor %}
+                        ]
+                    {% else %}
+                    "content": "{{ subitem.content }}"
+                    {% endif %}
+                }{% if not loop.last %},{% endif %}
             {% endfor %}
-          ]
-        }
+            ]
+            {% else %}
+            "content": "{{ entry.content }}"
+            {% endif %}
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
       ]
     }
     """
+
     # Create a Jinja template
     template = Template(template_str)
 
@@ -111,10 +106,10 @@ def render_schema_template(schema, project_name):
 # New method to render the HTML
 def render_html_template(rendered_schema, project_name):
 
-    # Create a Jinja environment
-    env = Environment(loader=FileSystemLoader("./templates"))
+    templates_path = os.path.join(os.path.dirname(__file__), 'templates')
 
-    # Load the template
+    env = Environment(loader=FileSystemLoader(templates_path))
+
     html_template = env.get_template("schema.html")
 
     # Render the HTML template with the provided data
