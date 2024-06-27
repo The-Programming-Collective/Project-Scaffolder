@@ -1,0 +1,6 @@
+__pycache__/
+.python-version
+
+# Code editor and IDE ignores
+.vscode
+.idea
