@@ -1,0 +1,162 @@
+body {
+  background-color: #497965;
+  font-family: Space Grotesk;
+  font-weight: Bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: white;
+  background-image: radial-gradient(circle, #00000080 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+
+input {
+  outline: none;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
+  background-color: #2E4C3C;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 1200px;
+  box-sizing: border-box;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.dropdown, .input-group input, .extraction input[type="text"] {
+  padding: 10px;
+  background-color: #6B9675;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.buttons button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+  cursor: pointer;
+  background-color: #FFB86C;
+  color: black;
+}
+
+.github-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.chat-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.suggestions {
+  flex: 1;
+  padding: 10px;
+  background-color: #1E3524;
+  border-radius: 5px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  background-color: #6B9675;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.description {
+  display: flex;
+  align-items: center;
+}
+
+.description input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #6B9675;
+  color: white;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.chat-input input {
+  font-size: large;
+  flex: 1;
+  height: 35px;
+  border: none;
+  border-radius: 10px;
+  
+}
+
+.chat-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #1E3524;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.suggestions {
+  flex: 1;
+  padding: 10px;
+  background-color: #1E3524;
+  border-radius: 5px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  background-color: #6B9675;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.send-button {
+  padding: 10px;
+  background-color: #FFB86C;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: black;
+}
+
+#red{
+  background-color: #BC4B51;
+}
