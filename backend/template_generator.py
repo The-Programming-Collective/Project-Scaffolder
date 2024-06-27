@@ -1,3 +1,5 @@
+# Generates JSON template from existing project and renders jinja if any jinja code exists
+
 from jinja2 import Template
 import json, os
 
