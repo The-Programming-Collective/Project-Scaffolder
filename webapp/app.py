@@ -4,14 +4,15 @@ from jinja2 import Template,Environment ,FileSystemLoader
 import shutil
 from classes.directory import Directory
 from classes.file import File
-from util import randomword
+from util import randomword,getFrameworks
 
 app = Flask(__name__)
 
 
 @app.route("/")
-def helloWorld():
-    return render_template("index.html")
+def home():
+    data = getFrameworks()
+    return render_template("index.html",data=data)
 
 
 @app.route("/download", methods=["GET"])

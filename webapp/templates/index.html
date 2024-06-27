@@ -5,24 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Setup</title>
     <link rel="stylesheet" href="/static/css/main.css">
+    <script src="/static/js/main.js"></script>
 </head>
 <body>
+    <h1>Project Scaffolder <img class="icon" src="/static/svg/exclamation.svg"></img> </h1>
     <div class="container">
         <div class="form-section">
             <div class="input-group">
                 <label for="frontend">Front-End</label>
                 <select id="frontend" class="dropdown">
-                    <option>React</option>
-                    <option>Vue</option>
-                    <option>Angular</option>
+                    {% for framework in data.frontend %}
+                        <option value={{framework}}>{{ framework }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="input-group">
                 <label for="backend">Back-End</label>
                 <select id="backend" class="dropdown">
-                    <option>Node.js</option>
-                    <option>Django</option>
-                    <option>Flask</option>
+                    {% for framework in data.backend %}
+                        <option value={{framework}}>{{ framework }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="input-group">
@@ -39,7 +41,7 @@
                 <input type="text" id="project-name" placeholder="Example-Project">
             </div>
             <div class="input-group">
-                <label>GitHub Api Key</label>
+                <a target="_blank" href="https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user" class="hovertext" data-hover="Provide the api key if you want the project to be auto setup on github">GitHub Api Key</a>
                 <input type="text" placeholder="(optional)">
             </div>
             <div class="input-group">
@@ -54,11 +56,11 @@
             </div>
             <div class="buttons">
                 <button>Export</button>
-                <button>Import</button>
+                <button class="hovertext" data-hover="Upload a project to get turned into a template">Upload</button>
             </div>
             <div class="buttons">
                 <button>Create</button>
-                <button id="red"><img src="/static/svg/github.svg" alt="GitHub" class="github-icon"></button>
+                <button id="red" class="hovertext" data-hover="Our github repo for template contribution" ><img src="/static/svg/github.svg" alt="GitHub" class="icon"></button>
             </div>
         </div>
         <div class="chat-section">
