@@ -6,9 +6,12 @@
     <title>Project Setup</title>
     <link rel="stylesheet" href="/static/css/main.css">
     <script src="/static/js/main.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Space Grotesk' rel='stylesheet'>
 </head>
 <body>
-    <h1>Project Scaffolder <img class="icon" src="/static/svg/exclamation.svg"></img> </h1>
+    <div>
+        <h1>Project Scaffolder <img class="icon" src="/static/svg/exclamation.svg"></img> </h1>
+    </div>
     <div class="container">
         <div class="form-section">
             <div class="input-group">
@@ -41,16 +44,16 @@
                 <input type="text" id="project-name" placeholder="Example-Project">
             </div>
             <div class="input-group">
-                <a target="_blank" href="https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user" class="hovertext" data-hover="Provide the api key if you want the project to be auto setup on github">GitHub Api Key</a>
+                <a target="_blank" href="https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user" class="hovertext" data-hover="Provide your api key for repo creation">GitHub Api Key</a>
                 <input type="text" placeholder="(optional)">
             </div>
             <div class="input-group">
                 <div>
-                    <input type="checkbox" id="download">
+                    <input type="checkbox" id="download" checked>
                     <label for="download">Download</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="container-file" checked>
+                    <input type="checkbox" id="container-file">
                     <label for="container-file">Container File</label>
                 </div>
             </div>

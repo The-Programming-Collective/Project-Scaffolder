@@ -1,7 +1,6 @@
 body {
   background-color: #497965;
   font-family: Space Grotesk;
-  font-weight: Bold;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -62,8 +61,15 @@ a{
   padding: 10px;
   background-color: #6B9675;
   border: none;
+  border-right: 10px solid transparent;
   border-radius: 5px;
   color: white;
+  font-family: Space Grotesk;
+  outline: none;
+}
+
+input{
+  font-family: Space Grotesk;
 }
 
 .buttons {
@@ -80,6 +86,7 @@ a{
   cursor: pointer;
   background-color: #FFB86C;
   color: black;
+  font-family: Space Grotesk;
 }
 
 .icon {

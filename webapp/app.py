@@ -11,8 +11,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    data = getFrameworks()
-    return render_template("index.html",data=data)
+    return render_template("index.html",data=getFrameworks())
 
 
 @app.route("/download", methods=["GET"])
