@@ -26,6 +26,9 @@ function uploadButton() {
                 console.error('Error:', error);
             });
         }
+        setTimeout(function() {
+            document.getElementById('error-message').textContent = '';
+        }, 5000);
     };
 }
 
