@@ -141,7 +141,7 @@ input{
   height: 35px;
   border: none;
   border-radius: 5px;
-  
+  padding-left: 10px;
 }
 
 .chat-section {
