@@ -5,14 +5,27 @@ from jinja2 import Template,Environment ,FileSystemLoader
 import shutil
 from classes.directory import Directory
 from classes.file import File
-from util import randomword,getFrameworks
+from util import randomword, getFrameworks, allowed_file
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
+app.config['UPLOAD_EXTENSIONS'] = ['.zip', '.rar']                                                                   
+app.config['TEMP_PATH'] = os.path.join(app.root_path, "temp")
 
 @app.route("/")
 def home():
-    return render_template("index.html",data=getFrameworks())
+    return render_template("index.html",\
+        frameworks=getFrameworks(),\
+        allowedUploadExtentions=",".join(app.config['UPLOAD_EXTENSIONS']),\
+        maxContentLength=app.config['MAX_CONTENT_LENGTH'])
 
+@app.route("/upload", methods=["POST"])
+def upload_file():
+    print(request.url)
+    uploaded_file = request.files["file"]
+    file_path = os.path.join(app.config['TEMP_PATH'], uploaded_file.filename)
+    uploaded_file.save(file_path)
+    return jsonify({"message": "File uploaded successfully"})
 
 @app.route("/download", methods=["GET"])
 def download_file():

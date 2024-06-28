@@ -206,3 +206,31 @@ input{
   opacity: 1;
   visibility: visible;
 }
+
+.file-upload-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.file-upload-button {
+  border: 2px solid #4CAF50;
+  color: white;
+  background-color: #4CAF50;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.file-upload-input {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}

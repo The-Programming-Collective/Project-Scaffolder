@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Setup</title>
     <link rel="stylesheet" href="/static/css/main.css">
-    <script src="/static/js/main.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Space Grotesk' rel='stylesheet'>
+    <script>
+        maxContentLength = {{maxContentLength}}
+    </script>
+    <script src="/static/js/main.js"></script>
 </head>
 <body>
     <div>
@@ -17,7 +20,7 @@
             <div class="input-group">
                 <label for="frontend">Front-End</label>
                 <select id="frontend" class="dropdown">
-                    {% for framework in data.frontend %}
+                    {% for framework in frameworks.frontend %}
                         <option value={{framework}}>{{ framework }}</option>
                     {% endfor %}
                 </select>
@@ -25,7 +28,7 @@
             <div class="input-group">
                 <label for="backend">Back-End</label>
                 <select id="backend" class="dropdown">
-                    {% for framework in data.backend %}
+                    {% for framework in frameworks.backend %}
                         <option value={{framework}}>{{ framework }}</option>
                     {% endfor %}
                 </select>
@@ -59,7 +62,13 @@
             </div>
             <div class="buttons">
                 <button>Export</button>
-                <button class="hovertext" data-hover="Upload a project to get turned into a template">Upload</button>
+                <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+                    <div class="file-upload-wrapper">
+                        <button class="file-upload-button" type="button" onclick="document.getElementById('file-input').click()">Choose file</button>
+                        <input id="file-input" class="file-upload-input" type="file" accept={{allowedUploadExtentions}} name="file" onchange="">
+                    </div>
+                    <div id="error-message" class="error"></div>
+                </form>
             </div>
             <div class="buttons">
                 <button>Create</button>

@@ -5,6 +5,9 @@ def randomword(length):
    letters = string.ascii_lowercase
    return ''.join(random.choice(letters) for i in range(length))
 
+def allowed_file(filename,allowedExtensions):
+   return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowedExtensions
+
 def getFrameworks():
    dirs = os.listdir(os.path.join(os.path.dirname(__file__), "engine", "templates"))
    
