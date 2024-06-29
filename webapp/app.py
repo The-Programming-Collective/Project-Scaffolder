@@ -71,51 +71,7 @@ def download_file():
         },
     )
 
-def render_schema_template(schema, project_name):
-    # Jinja template string
-    template_str = """
-    {
-      "name": "{{ schema.name }}",
-      "children": [
-        {% for entry in schema.children %}
-        {
-            "name": "{{ entry.name }}",
-            {% if entry.children %}
-            "children": [
-                {% for subitem in entry.children %}
-                    {
-                    "name": "{{ subitem.name }}",
-                    {% if subitem.children %}
-                        "children": [
-                        {% for file_item in subitem.children %}
-                            {
-                            "name": "{{ file_item.name }}",
-                            "content": "{{ file_item.content }}"
-                            }{% if not loop.last %},{% endif %}
-                        {% endfor %}
-                        ]
-                    {% else %}
-                    "content": "{{ subitem.content }}"
-                    {% endif %}
-                }{% if not loop.last %},{% endif %}
-            {% endfor %}
-            ]
-            {% else %}
-            "content": "{{ entry.content }}"
-            {% endif %}
-        }{% if not loop.last %},{% endif %}
-        {% endfor %}
-      ]
-    }
-    """
 
-    # Create a Jinja template
-    template = Template(template_str)
-
-    # Render the template with the provided schema and project name
-    rendered_template = template.render(schema=schema, projectName=project_name)
-
-    return rendered_template
 
 # New method to render the HTML
 def render_html_template(rendered_schema, project_name):

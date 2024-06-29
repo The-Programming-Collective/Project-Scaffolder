@@ -2,3 +2,4 @@ venv
 site-packages
 *cache*
 webapp/temp/*
+webapp/poetry.lock

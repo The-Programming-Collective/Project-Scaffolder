@@ -31,7 +31,7 @@ def traverse_directory_with_jinja(directory_path, context):
 
     return project_structure
 
-directory_path = "backend/templates/flask-template"
+directory_path = "webapp/engine/templates/flask-template"
 context = {'variable_name': 'value'}
 project_structure_with_jinja = traverse_directory_with_jinja(directory_path, context)
 project_structure_json_with_jinja = json.dumps(project_structure_with_jinja, indent=4)
