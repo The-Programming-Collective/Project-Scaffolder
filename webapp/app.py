@@ -5,7 +5,7 @@ from jinja2 import Template,Environment ,FileSystemLoader
 import shutil
 from classes.directory import Directory
 from classes.file import File
-from util import randomword, getFrameworks, allowed_file
+from util import randomword, get_frameworks, allowed_file, load_json_files
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
@@ -15,13 +15,14 @@ app.config['TEMP_PATH'] = os.path.join(app.root_path, "temp")
 @app.route("/")
 def home():
     return render_template("index.html",\
-        frameworks=getFrameworks(),\
+        frameworks=get_frameworks(),\
         allowedUploadExtentions=",".join(app.config['UPLOAD_EXTENSIONS']),\
         maxContentLength=app.config['MAX_CONTENT_LENGTH'])
 
 @app.route("/upload", methods=["POST"])
 def upload_file():
-    print(request.url)
+    if not allowed_file(request.files["file"].filename,app.config['UPLOAD_EXTENSIONS']):
+        return jsonify({"error": "File type not allowed"}), 400
     uploaded_file = request.files["file"]
     file_path = os.path.join(app.config['TEMP_PATH'], uploaded_file.filename)
     uploaded_file.save(file_path)
@@ -95,52 +96,39 @@ def render_html_template(rendered_schema, project_name):
     # "description" : "A simple MERN stack project"
 #}
 
-# Function to load JSON files from specified subdirectories
-def load_json_files(directory_path, stack_names):
-    json_files = {}
-    for stack in stack_names:
-        stack_path = os.path.join(directory_path, stack)
-        if os.path.isdir(stack_path):
-            for file in os.listdir(stack_path):
-                if file.endswith(".json"):
-                    file_path = os.path.join(stack_path, file)
-                    with open(file_path, 'r') as f:
-                        file_content = json.load(f)
-                        json_files[stack] = file_content
-                    break  # Only process one JSON file per subdirectory
-    return json_files
+
 
 @app.route('/generate_project', methods=['POST'])
 def generate_project():
     try:
         # Get the JSON object from the request
         stack_info = request.json
-        required_keys = ["projectName","frontend", "backend", "database"]
+        required_keys = ["projectName", "frontend", "backend", "database"]
         if not all(key in stack_info for key in required_keys):
-            return jsonify({"error": "Input JSON must contain frontend, backend, database"}), 400
+            return jsonify({"error": "Input JSON must contain projectName, frontend, backend, and database"}), 400
 
         # Extract stack names
-        projectName = stack_info["projectName"]
-        frontend = stack_info["frontend"]
-        backend = stack_info["backend"]
-        database = stack_info["database"]
+        project_name = stack_info["projectName"]
+        frontend = ["frontend", stack_info["frontend"]]
+        backend = ["backend", stack_info["backend"]]
+        database = ["database", stack_info["database"]]
         
         stack_names = [frontend, backend, database]
 
         # Load JSON files from the stacks directory
-        REPO_DIR = 'stacks'
+        REPO_DIR = os.path.join(os.path.dirname(__file__), 'engine', 'templates')
         json_files = load_json_files(REPO_DIR, stack_names)
 
         # Ensure all required stacks are found
-        if not all(stack in json_files for stack in stack_names):
+        if not all(category in json_files for category, _ in stack_names):
             return jsonify({"error": "One or more stacks not found"}), 404
 
         # Construct the project JSON structure
         project_structure = {
-            projectName: {
-                "backend": json_files.get(backend, {}),
-                "frontend": json_files.get(frontend, {}),
-                "README": json_files.get(database, {}).get("README", "")
+            project_name: {
+                "backend": json_files.get("backend", {}),
+                "frontend": json_files.get("frontend", {}),
+                "database": json_files.get("database", {})
             }
         }
 

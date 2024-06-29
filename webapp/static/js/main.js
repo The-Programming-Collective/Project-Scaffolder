@@ -4,10 +4,10 @@ function uploadButton() {
         
         if ( fileInput.files.length > 1 ) {
             document.getElementById('error-message').textContent = `File count exceeds 1`;
-            fileInput.value = ''; // Clear the input
+            fileInput.value = '';
         }else if ( fileInput.files[0].size > maxContentLength ) {
             document.getElementById('error-message').textContent = `File size exceeds ${maxContentLength/(1024)/1024}MB limit`;
-            fileInput.value = ''; // Clear the input
+            fileInput.value = '';
         }else {
             document.getElementById('error-message').textContent = '';
             var form = document.getElementById('upload-form');
@@ -17,13 +17,19 @@ function uploadButton() {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
+            .then(response => {
+                var status = response.status;
+                return response.json().then(data => {
+                    return { status: status, data: data };
+                });
+            })
+            .then(result => {
+                if(!result.ok) {
+                    document.getElementById('error-message').textContent = `${result.data.error}`;
+                }
             })
             .catch(error => {
                 document.getElementById('error-message').textContent = 'Error occured while uploading file';
-                console.error('Error:', error);
             });
         }
         setTimeout(function() {

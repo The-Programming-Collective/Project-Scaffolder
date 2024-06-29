@@ -20,6 +20,8 @@
             <div class="input-group">
                 <label for="frontend">Front-End</label>
                 <select id="frontend" class="dropdown">
+                    <option selected disabled>Select Frontend</option>
+                    <option value="none"> None </option>
                     {% for framework in frameworks.frontend %}
                         <option value={{framework}}>{{ framework }}</option>
                     {% endfor %}
@@ -28,6 +30,8 @@
             <div class="input-group">
                 <label for="backend">Back-End</label>
                 <select id="backend" class="dropdown">
+                    <option selected disabled>Select Backend</option>
+                    <option value="none"> None </option>
                     {% for framework in frameworks.backend %}
                         <option value={{framework}}>{{ framework }}</option>
                     {% endfor %}
@@ -36,10 +40,12 @@
             <div class="input-group">
                 <label for="database">Database</label>
                 <select id="database" class="dropdown">
-                    <option>SQLite</option>
-                    <option>MySQL</option>
-                    <option>PostgreSQL</option>
-                    <option>MongoDB</option>
+                    <option selected disabled>Select Database</option>
+                    <option value="none"> None </option>
+                    <option value="sqlite" >SQLite</option>
+                    <option value="mysql">MySQL</option>
+                    <option value="postgresql">PostgreSQL</option>
+                    <option value="mongodb">MongoDB</option>
                 </select>
             </div>
             <div class="input-group">

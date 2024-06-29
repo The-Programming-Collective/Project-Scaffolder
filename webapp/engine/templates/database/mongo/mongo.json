@@ -1,0 +1,9 @@
+{
+    "name": "MongoDB Database",
+    "version": "1.0.0",
+    "dependencies": {
+      "mongoose": "^5.12.3"
+    },
+    "README": "This is a dummy README for the MongoDB database configuration."
+  }
+  
