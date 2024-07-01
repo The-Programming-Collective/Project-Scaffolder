@@ -1,27 +1,27 @@
-import json
 import os
-from flask import Flask, jsonify, render_template, current_app, request
+import json
+from flask import Flask, Response, jsonify, render_template, current_app, request
 from jinja2 import Template,Environment ,FileSystemLoader
-import shutil
-from classes.directory import Directory
-from classes.file import File
-from util import randomword, get_frameworks, allowed_file, load_json_files
+from controllers.file_system import FileSystem
+from controllers.engine.template_engine import TemplateEngine
+from utils import load_json_files
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 app.config['UPLOAD_EXTENSIONS'] = ['.zip', '.rar']                                                                   
 app.config['TEMP_PATH'] = os.path.join(app.root_path, "temp")
+filesystem = FileSystem()
 
 @app.route("/")
 def home():
     return render_template("index.html",\
-        frameworks=get_frameworks(),\
+        frameworks=filesystem.getNames(root="controllers/engine/templates",levels=3),\
         allowedUploadExtentions=",".join(app.config['UPLOAD_EXTENSIONS']),\
         maxContentLength=app.config['MAX_CONTENT_LENGTH'])
 
 @app.route("/upload", methods=["POST"])
 def upload_file():
-    if not allowed_file(request.files["file"].filename,app.config['UPLOAD_EXTENSIONS']):
+    if not filesystem.allowed_file(request.files["file"].filename,app.config['UPLOAD_EXTENSIONS']):
         return jsonify({"error": "File type not allowed"}), 400
     uploaded_file = request.files["file"]
     file_path = os.path.join(app.config['TEMP_PATH'], uploaded_file.filename)
@@ -30,49 +30,14 @@ def upload_file():
 
 @app.route("/download", methods=["GET"])
 def download_file():
-    # os.mkdir(directory_path)
-    # file_path = os.path.join(directory_path, "test.txt")
-    # file_writer = open(file_path, "w")
-    # file_writer.write("Hello World")
-    # file_writer.close()
-    randName = randomword(10)
-    test = Directory(randName)
-    test.add(Directory("myroot"))
-    testActual = test.children[0]
-    testActual.add(File("file1.txt"))
-    testActual.add(File("file2.txt"))
-    testActual.add(Directory("dir1"))
-    testActual.add(Directory("dir2"))
-    testActual.children[2].add(File("file3.txt"))
-    testActual.children[2].add(Directory("dir3"))
-    testActual.children[2].children[1].add(File("file4"))
-    testActual.children[2].children[1].add(File("file5"))
-
-    directory_path = os.path.join(app.root_path, "temp", test.name)
-    test.create(directory_path)
-
-    # Zip file
-    target_path = os.path.join(app.root_path, "temp", test.name)
-    file_path = shutil.make_archive(target_path, "zip", directory_path)
-    file_handle = open(target_path + ".zip", "rb")
-
-    # This *replaces* the `remove_file` + @after_this_request code above
-    def stream_and_remove_file():
-        yield from file_handle
-        file_handle.close()
-        shutil.rmtree(directory_path)
-        os.remove(file_path)
-
-    return current_app.response_class(
-        stream_and_remove_file(),
-        headers={
-            "Content-Disposition": "attachment",
-            "filename": "test.txt",
-            "Content-Type": "application/zip",
-        },
-    )
-
-
+    request = {
+        "projectName" : "Testing",
+        "backend" : "flask",
+        "backendDeps" : ["swagger"]
+    }
+    return Response(filesystem.download_project(TemplateEngine().render_template(request)), 
+        mimetype='application/zip', 
+        headers={"Content-Disposition": f'attachment; filename={request["projectName"]}.zip'})
 
 # New method to render the HTML
 def render_html_template(rendered_schema, project_name):

@@ -68,11 +68,13 @@ a{
   outline: none;
 }
 
+
 input{
   font-family: Space Grotesk;
 }
 
 .buttons {
+  width: 100%;
   display: flex;
   gap: 10px;
 }
@@ -94,26 +96,6 @@ input{
   height: 24px;
 }
 
-.chat-section {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.suggestions {
-  flex: 1;
-  padding: 10px;
-  background-color: #1E3524;
-  border-radius: 5px;
-  overflow-y: auto;
-}
-
-.suggestion-item {
-  background-color: #6B9675;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-}
 
 .description {
   display: flex;
@@ -127,6 +109,23 @@ input{
   border-radius: 5px;
   background-color: #6B9675;
   color: white;
+}
+
+.chat-section {
+  display: flex;
+  flex-direction: column;
+  max-height: 95%;
+  gap: 20px;
+  background-color: #1E3524;
+  padding: 20px;
+  border-radius: 10px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.suggestions {
+  flex-grow: 1; /* Take up the remaining space */
+  overflow-y: auto; /* Allow scrolling if content overflows */
 }
 
 .chat-input {
@@ -144,28 +143,35 @@ input{
   padding-left: 10px;
 }
 
-.chat-section {
+.gemini-chat {
+  background-color: #1E3524;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.messages {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  background-color: #1E3524;
-  padding: 20px;
-  border-radius: 10px;
+  gap: 10px;
 }
 
-.suggestions {
-  flex: 1;
+.user-message {
+  align-self: flex-end;
+  background-color: #FFB86C;
   padding: 10px;
-  background-color: #1E3524;
   border-radius: 5px;
-  overflow-y: auto;
+  color: black;
 }
 
-.suggestion-item {
+.gemini-message {
+  align-self: flex-start;
   background-color: #6B9675;
   padding: 10px;
   border-radius: 5px;
-  margin-bottom: 10px;
+  color: white;
 }
 
 .send-button {
@@ -208,12 +214,14 @@ input{
 }
 
 .file-upload-wrapper {
+  width : 500%;
   position: relative;
   overflow: hidden;
   display: inline-block;
 }
 
 .file-upload-button {
+  width : 100%;
   border: 2px solid #4CAF50;
   color: white;
   background-color: #4CAF50;
