@@ -1,15 +1,14 @@
 body {
-  background-color: #497965;
-  font-family: Space Grotesk;
+  background-color: #0D051A;
+  font-family: 'Martel Sans', sans-serif;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
   color: white;
-  background-image: radial-gradient(circle, #00000080 1px, transparent 1px);
-  background-size: 10px 10px;
+  background-image: radial-gradient(circle, rgba(77, 21, 105, 0.502) 2px, transparent 1px);
+  background-size: 20px 20px;
 }
 
 input {
@@ -17,8 +16,9 @@ input {
 }
 
 h1{
-  align-items: center;
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -28,12 +28,17 @@ a{
   text-decoration-color: white;
 }
 
+#logo{
+  height: 50%;
+  width: 50%;
+}
+
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   padding: 20px;
-  background-color: #2E4C3C;
+  background-color: #0D051A;
   border-radius: 10px;
   width: 90%;
   max-width: 1200px;
@@ -59,18 +64,17 @@ a{
 
 .dropdown, .input-group input, .extraction input[type="text"] {
   padding: 10px;
-  background-color: #6B9675;
+  background-color: #292244;
   border: none;
   border-right: 10px solid transparent;
   border-radius: 5px;
   color: white;
-  font-family: Space Grotesk;
+  font-family: 'Martel Sans', sans-serif;
   outline: none;
 }
 
-
 input{
-  font-family: Space Grotesk;
+  font-family: 'Martel Sans', sans-serif;
 }
 
 .buttons {
@@ -86,16 +90,15 @@ input{
   border-radius: 5px;
   height: 40px;
   cursor: pointer;
-  background-color: #FFB86C;
-  color: black;
-  font-family: Space Grotesk;
+  background-color: #725AC1;
+  color: white;
+  font-family: 'Martel Sans', sans-serif;
 }
 
 .icon {
   width: 24px;
   height: 24px;
 }
-
 
 .description {
   display: flex;
@@ -107,7 +110,7 @@ input{
   padding: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #6B9675;
+  background-color: #725AC1;
   color: white;
 }
 
@@ -116,9 +119,10 @@ input{
   flex-direction: column;
   max-height: 95%;
   gap: 20px;
-  background-color: #1E3524;
+  background-color: #0D051A;
   padding: 20px;
   border-radius: 10px;
+  border: 2px solid white;
   height: 100%;
   justify-content: flex-end;
 }
@@ -135,16 +139,15 @@ input{
 }
 
 .chat-input input {
-  font-size: large;
+  font-size: medium;
   flex: 1;
-  height: 35px;
+  height: 40px;
   border: none;
   border-radius: 5px;
   padding-left: 10px;
 }
 
 .gemini-chat {
-  background-color: #1E3524;
   padding: 10px;
   border-radius: 5px;
   margin-top: 10px;
@@ -160,7 +163,7 @@ input{
 
 .user-message {
   align-self: flex-end;
-  background-color: #FFB86C;
+  background-color: #725AC1;
   padding: 10px;
   border-radius: 5px;
   color: black;
@@ -168,22 +171,23 @@ input{
 
 .gemini-message {
   align-self: flex-start;
-  background-color: #6B9675;
+  background-color: #725AC1;
   padding: 10px;
   border-radius: 5px;
   color: white;
 }
 
 .send-button {
+  height: 40px;
   padding: 10px;
-  background-color: #FFB86C;
+  background-color: #725AC1;
   border: none;
-  border-radius: 5px;
+  border-radius: 5px; /* Rounded edges */
   cursor: pointer;
-  color: black;
+  color: white;
 }
 
-#red{
+#red {
   background-color: #BC4B51;
 }
 
@@ -214,20 +218,10 @@ input{
 }
 
 .file-upload-wrapper {
-  width : 500%;
+  width : 100%;
   position: relative;
   overflow: hidden;
   display: inline-block;
-}
-
-.file-upload-button {
-  width : 100%;
-  border: 2px solid #4CAF50;
-  color: white;
-  background-color: #4CAF50;
-  padding: 8px 20px;
-  border-radius: 8px;
-  cursor: pointer;
 }
 
 .file-upload-input {
@@ -241,4 +235,32 @@ input{
 .error {
   color: #BC4B51;
   font-weight: bold;
+}
+
+.dependencies {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background-color: #725AC1;
+  border-radius: 5px;
+}
+
+.dependency-item {
+  display: flex;
+  justify-content: space-between;
+  background-color: #725AC1;
+  padding: 5px;
+  border-radius: 5px;
+  align-items: center;
+}
+
+.dependency-item button {
+  background-color: #0D051A;
+  border: none;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
 }

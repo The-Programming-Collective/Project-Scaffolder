@@ -2,12 +2,15 @@ import os
 from flask import Flask, Response, jsonify, render_template, request
 from controllers.file_system import FileSystem
 from controllers.engine.template_engine import TemplateEngine
+from controllers.project_manager import ProjectManager
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024
 app.config["UPLOAD_EXTENSIONS"] = [".zip", ".rar"]
 app.config["TEMP_PATH"] = os.path.join(app.root_path, "temp")
 filesystem = FileSystem()
+project_manager = ProjectManager()
+template_engine = TemplateEngine()
 
 
 @app.route("/")
@@ -17,7 +20,7 @@ def home():
         frameworks=filesystem.traverse_directory(
             root="controllers/engine/templates", levels=3
         ),
-        allowedUploadExtentions=",".join(app.config["UPLOAD_EXTENSIONS"]),
+        allowedUploadExtensions=",".join(app.config["UPLOAD_EXTENSIONS"]),
         maxContentLength=app.config["MAX_CONTENT_LENGTH"],
     )
 
@@ -30,13 +33,16 @@ def upload_file():
         return jsonify({"error": "File type not allowed"}), 400
 
     uploaded_file = request.files["file"]
-    file_path = os.path.join(app.config["TEMP_PATH"], uploaded_file.filename)
+    randFile, randDir = filesystem.generate_random_directory()
+    file_path = os.path.join(randDir,uploaded_file.filename)
     uploaded_file.save(file_path)
+    filesystem.extract_zip_file(file_path, os.path.join(randDir, uploaded_file.filename.split(".")[0]))
+    return (template_engine.generate_template(os.path.join(randDir, uploaded_file.filename.split(".")[0])))
     return jsonify({"message": "File uploaded successfully"})
 
 
 @app.route("/download", methods=["GET"])
-def download_file():
+def generate_project():
     request = {
         "projectName": "Testing",
         "backend": "javaee10",
@@ -45,7 +51,7 @@ def download_file():
         "frontend_dependencies": []
     }
     return Response(
-        filesystem.download_project(TemplateEngine().render_template2(request)),
+        project_manager.download_project(request),
         mimetype="application/zip",
         headers={
             "Content-Disposition": f'attachment; filename={request["projectName"]}.zip'

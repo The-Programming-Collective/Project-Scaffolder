@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Setup</title>
+    <title>Scaffolder</title>
     <link rel="stylesheet" href="/static/css/main.css">
-    <link href='https://fonts.googleapis.com/css?family=Space Grotesk' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="/static/ico/logo.ico" type="image/x-icon">
     <script>
-        maxContentLength = {{maxContentLength}}
+        let maxContentLength = {{maxContentLength}}
     </script>
     <script src="/static/js/main.js"></script>
 </head>
 <body>
     <div>
-        <h1>Project Scaffolder <img class="icon" src="/static/svg/exclamation.svg"></img> </h1>
+        <h1><img id="logo" src="/static/svg/scaffolder.svg"></h1>
     </div>
     <div class="container">
         <div class="form-section">
             <div class="input-group">
                 <label for="frontend">Front-End</label>
                 <select id="frontend" class="dropdown">
-                    <option selected disabled>Select Frontend</option>
+                    <option selected disabled hidden>Select Frontend</option>
                     <option value="none"> None </option>
                     {% for framework in frameworks.frontend %}
                         <option value={{framework}}>{{ framework }}</option>
@@ -30,24 +31,27 @@
             <div class="input-group">
                 <label for="backend">Back-End</label>
                 <select id="backend" class="dropdown">
-                    <option selected disabled>Select Backend</option>
+                    <option selected disabled hidden>Select Backend</option>
                     <option value="none"> None </option>
                     {% for framework in frameworks.backend %}
                         <option value={{framework}}>{{ framework }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <!--<div class="input-group">
-                <label for="database">Database</label>
-                <select id="database" class="dropdown">
-                    <option selected disabled>Select Database</option>
-                    <option value="none"> None </option>
-                    <option value="sqlite" >SQLite</option>
-                    <option value="mysql">MySQL</option>
-                    <option value="postgresql">PostgreSQL</option>
-                    <option value="mongodb">MongoDB</option>
+            <div class="input-group">
+                <label for="dependencies">Dependencies</label>
+                <select id="dependencies" class="dropdown">
+                    <option selected disabled hidden>Select Dependencies</option>
+                    <option value="dependency1">Dependency 1</option>
+                    <option value="dependency2">Dependency 2</option>
+                    <option value="dependency3">Dependency 3</option>
                 </select>
-            </div>-->
+            </div>
+            <div class="dependencies" id="selected-dependencies">
+                <!-- Selected dependencies will be appended here -->
+                 <a id="deps-placeholder">No dependencies selected</a>
+            </div>
+            <script src="/static/js/deps.js"></script>
             <div class="input-group">
                 <label for="project-name">Project Name</label>
                 <input type="text" id="project-name" placeholder="Example-Project">
@@ -56,7 +60,7 @@
                 <a target="_blank" href="https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user" class="hovertext" data-hover="Provide your api key for repo creation">GitHub Api Key</a>
                 <input type="text" placeholder="(optional)">
             </div>
-            <div class="input-group">
+            <!--<div class="input-group">
                 <div>
                     <input type="checkbox" id="download" checked>
                     <label for="download">Download</label>
@@ -65,19 +69,19 @@
                     <input type="checkbox" id="container-file">
                     <label for="container-file">Container File</label>
                 </div>
-            </div>
-            <div class="buttons">
-                <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
-                    <div class="file-upload-wrapper">
-                        <button class="file-upload-button" type="button" onclick="document.getElementById('file-input').click()">Upload Project</button>
-                        <input id="file-input" class="file-upload-input" type="file" accept={{allowedUploadExtentions}} name="file" onchange="">
-                    </div>
+            </div>-->
+            <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+                <div class="file-upload-wrapper">
+                    <input id="file-input" class="file-upload-input" type="file" accept="{{allowedUploadExtensions}}" name="file" onchange="">
                     <div id="error-message" class="error"></div>
-                </form>
+                </div>
+            </form>
+            <div class="buttons">
+                <button type="button" onclick="document.getElementById('file-input').click()">Upload Project</button>
+                <button>Create</button>
             </div>
             <div class="buttons">
-                <button>Create</button>
-                <button id="red" class="hovertext" data-hover="Our github repo for template contribution" ><img src="/static/svg/github.svg" alt="GitHub" class="icon"></button>
+                <button id="red" class="hovertext" data-hover="Our github repo for template contribution"><img src="/static/svg/github.svg" alt="GitHub" class="icon"></button>
             </div>
         </div>
         <div class="chat-section">

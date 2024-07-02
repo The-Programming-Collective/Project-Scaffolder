@@ -1,12 +1,10 @@
 # Generates JSON template from existing project and renders jinja if any jinja code exists
 
 from jinja2 import Template
-import json, os, ast, re
-from controllers.file_system import FileSystem
+import json, os, ast
 
 class TemplateEngine:
     def __init__(self) -> None:
-        self.filesystem = FileSystem()
         self.templates_dir = os.path.join(os.path.dirname(__file__), "templates")
         
     def traverse_directory(self, directory_path):
@@ -32,7 +30,7 @@ class TemplateEngine:
 
         return project_structure
     
-    def generate_template(self, directory_path : str) -> dict: 
+    def generate_template(self, directory_path : str):
         project_structure = self.traverse_directory(directory_path)
         project_structure_json = json.dumps(project_structure, indent=4)
         return project_structure_json
@@ -85,8 +83,7 @@ class TemplateEngine:
     #     return ast.literal_eval(temp.render(context))
 
     
-    def render_template2(self, request : dict) -> dict:
-        # master_template = Template(self.read_jinja_files(['master']).popitem()[1])
+    def render_template(self, request : dict) -> dict:
         backend_dependencies = self.read_jinja_files(request["backend_dependencies"],'backend', request["backend"], 'dependencies')
         frontend_dependencies = self.read_jinja_files(request["frontend_dependencies"], 'frontend', request["frontend"], 'dependencies')
 

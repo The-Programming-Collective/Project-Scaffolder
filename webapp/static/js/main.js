@@ -20,12 +20,15 @@ function uploadButton() {
             .then(response => {
                 var status = response.status;
                 return response.json().then(data => {
+                    console.log(data)
                     return { status: status, data: data };
                 });
             })
             .then(result => {
                 if(!result.ok) {
                     document.getElementById('error-message').textContent = `${result.data.error}`;
+                }else{
+                    console.log(result.data);
                 }
             })
             .catch(error => {
