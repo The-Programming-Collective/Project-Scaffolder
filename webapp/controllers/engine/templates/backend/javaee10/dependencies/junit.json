@@ -1,0 +1,6 @@
+{
+    "groupId": "org.junit.jupiter",
+    "artifactId": "junit-jupiter-engine",
+    "version": "${junit.version}",
+    "scope": "test"
+}
