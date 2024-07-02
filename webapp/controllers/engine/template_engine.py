@@ -1,7 +1,7 @@
 # Generates JSON template from existing project and renders jinja if any jinja code exists
 
 from jinja2 import Template
-import json, os, ast
+import json, os, ast, re
 from controllers.file_system import FileSystem
 
 class TemplateEngine:
@@ -83,9 +83,10 @@ class TemplateEngine:
     #     context = {'projectName' : request["projectName"], 'poetryDependencies' : deps_string, 'appConfig' : config_string, 'mainImports' : imports_string}
     #     # print(temp.render(context))
     #     return ast.literal_eval(temp.render(context))
+
     
     def render_template2(self, request : dict) -> dict:
-        master_template = Template(self.read_jinja_files(['master']).popitem()[1])
+        # master_template = Template(self.read_jinja_files(['master']).popitem()[1])
         backend_dependencies = self.read_jinja_files(request["backend_dependencies"],'backend', request["backend"], 'dependencies')
         frontend_dependencies = self.read_jinja_files(request["frontend_dependencies"], 'frontend', request["frontend"], 'dependencies')
 
@@ -102,13 +103,11 @@ class TemplateEngine:
         
         backend = ast.literal_eval(backend_template.render(backend_context))
         frontend = ast.literal_eval(frontend_template.render(frontend_context))
-        print(type(backend))
         
-        context = {}
-        context["projectName"] = request["projectName"]
-        context["backend"] = backend
-        context["frontend"] = "iuhiuhuih"
-        context["README"] = "This is a test README file"
-        print(master_template.render(context))
-        # master = ast.literal_eval(master_template.render(context))
-        return backend
+        master = {}
+        master["projectName"] = request["projectName"]
+        master["backend"] = backend
+        master["frontend"] = frontend
+        master["README"] = "This is a test README file"
+
+        return master
