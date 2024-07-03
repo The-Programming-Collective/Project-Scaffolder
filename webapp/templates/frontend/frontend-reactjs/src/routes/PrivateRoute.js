@@ -1,0 +1,1 @@
+// logic for private(authenticated) routes
