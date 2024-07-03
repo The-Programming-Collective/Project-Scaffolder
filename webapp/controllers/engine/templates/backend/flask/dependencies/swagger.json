@@ -3,7 +3,6 @@
   "version": "*",
   "mainImports": "from flasgger import Swagger",
   "appConfig": "swagger = Swagger(app)",
-  "poetryDependencies": "flasgger\nflask-restful",
   "description": "Easy OpenAPI specs and Swagger UI for your Flask API",
   "reference": "https://github.com/flasgger/flasgger"
 }

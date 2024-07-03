@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedValue) {
             const dependencyItem = document.createElement('div');
             dependencyItem.classList.add('dependency-item');
-            dependencyItem.innerHTML = `${selectedText} <button onclick="removeDependency(this, '${selectedValue}')">X</button>`;
+            dependencyItem.innerHTML = `${selectedText} <p onclick="removeDependency(this, '${selectedValue}')">X</p>`;
             selectedDependencies.appendChild(dependencyItem);
             event.target.options[event.target.selectedIndex].disabled = true;
             event.target.selectedIndex = 0;

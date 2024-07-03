@@ -21,12 +21,15 @@ Contributions must follow a specific specification to comply with our backend.
 
 ### Framework
 
+ALL IN J2 FORMAT
+
 - Backend frameworks use a default endpoint for the user to ping and see if the application is running properly
 
 `localhost:<port>/health`
 
-
 ### Dependency
+
+ALL IN JSON FORMAT
 
 ## Team members
 

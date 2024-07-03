@@ -43,7 +43,13 @@ class TemplateEngine:
             for entry in os.scandir(path):
                 if entry.is_file() and entry.name.split('.')[0] in files_names:
                     with open(entry.path, "r") as file:
-                        tree[entry.name] = file.read()
+                        content = file.read()
+                        file_name, extention = entry.name.split('.')
+                        # software engineered code 101
+                        if(extention == 'json'):
+                            tree[file_name] = json.loads(content)
+                        else:
+                            tree[file_name] = content
         except Exception as e:
             print(e)
             return {"error": "Permission denied"}
@@ -57,31 +63,6 @@ class TemplateEngine:
     #    "frontend": "react",
     #    "frontend_dependencies": ["react-router-dom", "axios"],
     # }
-
-    # def render_template(self, request : dict) -> dict:
-    #     root_dir = os.path.dirname(os.path.realpath(__file__))
-    #     file_content = open(os.path.join(root_dir, 'templates', 'backend', request["backend"], request["backend"] + '.json')).read()
-    #     temp = Template(file_content)
-
-    #     deps_json = {}
-    #     for dep in request["backendDeps"]:
-    #         content = open(os.path.join(root_dir, 'templates', 'backend', request["backend"], 'dependencies',dep+'.json')).read()
-    #         content = json.loads(content)
-    #         deps_json[dep] = content
-
-    #     deps_string = ""
-    #     config_string = ""
-    #     imports_string = ""
-
-    #     for dep in deps_json:
-    #         deps_string += deps_json[dep]["name"] + " = " + "\\\"" + deps_json[dep]["version"] + "\\\"" + "\\" + "n"
-    #         config_string += deps_json[dep]["appConfig"] + "\\" + "n"
-    #         imports_string += deps_json[dep]["mainImports"] + "\\" + "n"
-
-    #     context = {'projectName' : request["projectName"], 'poetryDependencies' : deps_string, 'appConfig' : config_string, 'mainImports' : imports_string}
-    #     # print(temp.render(context))
-    #     return ast.literal_eval(temp.render(context))
-
     
     def render_template(self, request : dict) -> dict:
         backend_dependencies = self.read_jinja_files(request["backend_dependencies"],'backend', request["backend"], 'dependencies')
@@ -92,11 +73,13 @@ class TemplateEngine:
         
         backend_context = {}
         backend_context["dependencies"] = backend_dependencies
+        backend_context["projectName"] = request["projectName"]
         # for javaee 
         backend_context["groupId"] = "scaffold"
         
         frontend_context = {}
         frontend_context["dependencies"] = frontend_dependencies
+        frontend_context["projectName"] = request["projectName"]
         
         backend = ast.literal_eval(backend_template.render(backend_context))
         frontend = ast.literal_eval(frontend_template.render(frontend_context))

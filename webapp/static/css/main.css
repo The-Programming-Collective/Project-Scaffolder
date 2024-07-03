@@ -1,5 +1,5 @@
 body {
-  background-color: #0D051A;
+  background-color: #15082b;
   font-family: 'Martel Sans', sans-serif;
   display: flex;
   flex-direction: column;
@@ -15,20 +15,34 @@ input {
   outline: none;
 }
 
-h1{
+h1 {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
 }
 
-a{
+h2 {
+  margin: 0;
+}
+
+h4 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+a {
   color: white;
   text-decoration-style: line;
   text-decoration-color: white;
 }
 
-#logo{
+p {
+  margin: 0;
+  cursor: pointer;
+}
+
+#logo {
   height: 50%;
   width: 50%;
 }
@@ -42,13 +56,16 @@ a{
   border-radius: 10px;
   width: 90%;
   max-width: 1200px;
+  max-height: 700px;
   box-sizing: border-box;
+  height: calc(100vh - 100px); /* Adjust height to fit within the viewport */
 }
 
 .form-section {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: 100%;
 }
 
 .input-group {
@@ -73,7 +90,7 @@ a{
   outline: none;
 }
 
-input{
+input {
   font-family: 'Martel Sans', sans-serif;
 }
 
@@ -117,19 +134,48 @@ input{
 .chat-section {
   display: flex;
   flex-direction: column;
-  max-height: 95%;
   gap: 20px;
   background-color: #0D051A;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 2px solid white;
+  overflow: hidden;
   height: 100%;
-  justify-content: flex-end;
+  max-height: 610px;
 }
 
-.suggestions {
-  flex-grow: 1; /* Take up the remaining space */
-  overflow-y: auto; /* Allow scrolling if content overflows */
+.gemini-chat {
+  flex: 1;
+  display: column;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #0D051A;
+  width: 100%;
+  height: 100%;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-message {
+  align-self: flex-end;
+  background-color: #725AC1;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+}
+
+.gemini-message {
+  align-self: flex-start;
+  background-color: #725AC1;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
 }
 
 .chat-input {
@@ -145,36 +191,6 @@ input{
   border: none;
   border-radius: 5px;
   padding-left: 10px;
-}
-
-.gemini-chat {
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 10px;
-  overflow-y: auto;
-  max-height: 300px;
-}
-
-.messages {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.user-message {
-  align-self: flex-end;
-  background-color: #725AC1;
-  padding: 10px;
-  border-radius: 5px;
-  color: black;
-}
-
-.gemini-message {
-  align-self: flex-start;
-  background-color: #725AC1;
-  padding: 10px;
-  border-radius: 5px;
-  color: white;
 }
 
 .send-button {
@@ -218,7 +234,7 @@ input{
 }
 
 .file-upload-wrapper {
-  width : 100%;
+  width: 100%;
   position: relative;
   overflow: hidden;
   display: inline-block;
@@ -247,7 +263,9 @@ input{
 }
 
 .dependency-item {
+  border: #0D051A solid;
   display: flex;
+  text-align: center;
   justify-content: space-between;
   background-color: #725AC1;
   padding: 5px;
