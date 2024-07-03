@@ -40,19 +40,20 @@ class TemplateEngine:
         tree = {}
 
         try:
-            for entry in os.scandir(path):
-                if entry.is_file() and entry.name.split('.')[0] in files_names:
-                    with open(entry.path, "r") as file:
-                        content = file.read()
-                        file_name, extention = entry.name.split('.')
-                        # software engineered code 101
-                        if(extention == 'json'):
-                            tree[file_name] = json.loads(content)
-                        else:
-                            tree[file_name] = content
+            if os.path.exists(path):
+                for entry in os.scandir(path):
+                    if entry.is_file() and ((entry.name.split('.')[0] in files_names) or files_names == []):
+                        with open(entry.path, "r") as file:
+                            content = file.read()
+                            file_name, extention = entry.name.split('.')
+                            # software engineered code 101
+                            if(extention == 'json'):
+                                tree[file_name] = json.loads(content)
+                            else:
+                                tree[file_name] = content
         except Exception as e:
             print(e)
-            return {"error": "Permission denied"}
+            return tree
 
         return tree
 

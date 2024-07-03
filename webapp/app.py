@@ -14,6 +14,7 @@ app.config["SUPPORTED_FRAMEWORKS"] = project_manager.get_supported_frameworks()
 
 @app.route("/")
 def home():
+    print(ProjectManager().get_supported_dependencies(["description"]))
     return render_template(
         "index.html",
         frameworks=app.config["SUPPORTED_FRAMEWORKS"],

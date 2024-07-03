@@ -26,9 +26,9 @@ h2 {
   margin: 0;
 }
 
-h4 {
+h3 {
   text-align: center;
-  margin-top: 20px;
+  font-family: 'Martel Sans', sans-serif;
 }
 
 a {
@@ -56,7 +56,7 @@ p {
   border-radius: 10px;
   width: 90%;
   max-width: 1200px;
-  max-height: 700px;
+  max-height: 750px;
   box-sizing: border-box;
   height: calc(100vh - 100px); /* Adjust height to fit within the viewport */
 }

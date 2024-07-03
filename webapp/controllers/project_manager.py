@@ -37,5 +37,21 @@ class ProjectManager:
     
     def get_supported_frameworks(self):
         return self.file_system.traverse_directory(
-            root="controllers/engine/templates", levels=3
+            root="controllers/engine/templates", levels=2
         )
+        
+    def get_supported_dependencies(self,desired_keys):
+        dependencies = {}
+        all_frameworks = self.get_supported_frameworks()
+        for framework_type in all_frameworks:
+            dependencies[framework_type] = {}
+            for framework_name in all_frameworks[framework_type]:
+                curr_dependencies = self.template_engine.read_jinja_files([],framework_type, framework_name, 'dependencies')
+                dependencies[framework_type][framework_name] = {}
+                for curr_dependency in curr_dependencies:
+                    temp = {key: curr_dependencies.get(curr_dependency).get(key) for key in desired_keys if key in curr_dependencies.get(curr_dependency)}
+                    dependencies[framework_type][framework_name] = temp
+                    dependencies[framework_type][framework_name]["name"] = curr_dependency
+        return dependencies
+           
+
