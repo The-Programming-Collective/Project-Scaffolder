@@ -1,0 +1,7 @@
+{
+    "groupId": "org.postgresql",
+    "artifactId": "postgresql",
+    "version": "42.7.3",
+    "scope": "compile", 
+    "description": "postgreSQL JDBC Driver"
+}
