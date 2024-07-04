@@ -24,7 +24,7 @@ class TemplateEngine:
                 current_level[d] = {}
 
             for f in files:
-                with open(os.path.join(root, f), "r") as file:
+                with open(os.path.join(root, f), "r", encoding="utf-8") as file:
                     file_content = file.read()
                     current_level[f] = file_content
 
