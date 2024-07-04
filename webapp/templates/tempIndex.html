@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scaffolder</title>
     <link rel="stylesheet" href="/static/css/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@200;300;400;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" href="/static/ico/logo.ico" type="image/x-icon">
     <script>
-        // let maxContentLength = {{maxContentLength}}
+        let maxContentLength = {{maxContentLength}}
     </script>
     <script src="/static/js/main.js"></script>
 </head>
-
 <body>
     <div>
         <h1><img id="logo" src="/static/svg/scaffolder.svg"></h1>
@@ -22,9 +19,8 @@
     <h3>
         Let’s Scaffold!
         Empower your team's creativity and efficiency with Project Scaffolder.<br>
-        Tired of mundane setup tasks? We automate the groundwork—establishing project structures, configuring
-        environments,<br>
-        and managing dependencies—so you can focus on what matters most:
+        Tired of mundane setup tasks? We automate the groundwork—establishing project structures, configuring environments,<br>
+        and managing dependencies—so you can focus on what matters most: 
         building exceptional software.
     </h3>
 
@@ -36,7 +32,7 @@
                     <option selected disabled hidden>Select Frontend</option>
                     <option value="none"> None </option>
                     {% for framework in frameworks.frontend %}
-                    <option value={{framework}}>{{ framework }}</option>
+                        <option value={{framework}}>{{ framework }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -46,7 +42,7 @@
                     <option selected disabled hidden>Select Backend</option>
                     <option value="none"> None </option>
                     {% for framework in frameworks.backend %}
-                    <option value={{framework}}>{{ framework }}</option>
+                        <option value={{framework}}>{{ framework }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -61,23 +57,34 @@
             </div>
             <div class="dependencies" id="selected-dependencies">
                 <!-- Selected dependencies will be appended here -->
-                <a id="deps-placeholder">No dependencies selected</a>
+                 <a id="deps-placeholder">No dependencies selected</a>
             </div>
             <script src="/static/js/deps.js"></script>
             <div class="input-group">
                 <label for="project-name">Project Name</label>
                 <input type="text" id="project-name" placeholder="Example-Project">
             </div>
+            <div class="buttons">
+                <div class="input-group">
+                    <a target="_blank" href="https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user" class="hovertext" data-hover="Provide your api key for repo creation">GitHub Api Key</a>
+                    <input type="text" placeholder="(optional)">
+                </div>
+                <div class="input-group">
+                    <label for="github-username">Github User-Name</label>
+                    <input type="text" id="github-username" placeholder="(optional)">
+                </div>
+            </div>
+            <script src="/static/js/github.js"></script>
             <div class="input-group">
-                <a target="_blank"
-                    href="https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user"
-                    class="hovertext" data-hover="Provide your api key for repo creation">GitHub Api Key</a>
-                <input type="text" placeholder="(optional)">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="container-file">
+                    <label for="container-file">Containerization</label>
+                    <span class="tooltip">Add Dockerfiles (containerization)</span>
+                </div>
             </div>
             <form id="upload-form" action="/api/upload" method="post" enctype="multipart/form-data">
                 <div class="file-upload-wrapper">
-                    <input id="file-input" class="file-upload-input" type="file" accept="{{allowedUploadExtensions}}"
-                        name="file" onchange="">
+                    <input id="file-input" class="file-upload-input" type="file" accept="{{allowedUploadExtensions}}" name="file" onchange="">
                     <div id="error-message" class="error"></div>
                 </div>
             </form>
@@ -86,27 +93,24 @@
                 <button>Create</button>
             </div>
             <div class="buttons">
-                <button id="red" class="hovertext" data-hover="Our github repo for template contribution"><img
-                        src="/static/svg/github.svg" alt="GitHub" class="icon"></button>
+                <button id="red" class="hovertext" data-hover="Our github repo for template contribution"><img src="/static/svg/github.svg" alt="GitHub" class="icon"></button>
             </div>
         </div>
         <div>
             <label>Unsure what stack to use?</label>
             <div class="chat-section">
+                <script src="/static/js/chat.js"></script>
                 <h2>Chat with Gemini</h2>
                 <div class="gemini-chat">
                     <div class="messages" id="gemini-messages"></div>
                 </div>
                 <div class="chat-input">
-                    <input type="text" id="messageInput" placeholder="Type your message...">
+                    <input type="text" id="gemini-message" placeholder="Type your message...">
                     <button class="send-button" id="send-gemini-message">➤</button>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="/static/js/gemini.js"></script>
-    <script src="/static/js/chat.js"></script>
 </body>
-
 </html>

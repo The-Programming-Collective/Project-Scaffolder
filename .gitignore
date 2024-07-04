@@ -1,4 +1,5 @@
 venv
+env
 site-packages
 *cache*
 webapp/temp/*

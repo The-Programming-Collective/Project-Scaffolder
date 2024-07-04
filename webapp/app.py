@@ -1,17 +1,31 @@
-import os
+from http.client import HTTPException
 from flask import Flask, Response, jsonify, render_template, request
 from controllers.file_system import FileSystem
 from controllers.project_manager import ProjectManager
-from controllers.github import Github
 
 app = Flask(__name__)
 filesystem = FileSystem()
 project_manager = ProjectManager()
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024
 app.config["UPLOAD_EXTENSIONS"] = [".zip", ".rar"]
-app.config["TEMP_PATH"] = os.path.join(app.root_path, "temp")
 app.config["SUPPORTED_FRAMEWORKS"] = project_manager.get_supported_frameworks()
 app.config["SUPPORTED_DEPENDENCIES"] = project_manager.get_supported_dependencies(["description", "version"])
+
+
+@app.errorhandler(Exception)
+def handle_error(e):
+    code = 500
+    if isinstance(e, HTTPException):
+        code = e.code
+    elif isinstance(e, FileNotFoundError):
+        code = 404
+    elif isinstance(e, ValueError):
+        code = 400
+    elif isinstance(e, KeyError):
+        code = 404
+    elif isinstance(e, TypeError):
+        code = 400
+    return jsonify(error=str(e)), code
 
 @app.route("/")
 def home():
