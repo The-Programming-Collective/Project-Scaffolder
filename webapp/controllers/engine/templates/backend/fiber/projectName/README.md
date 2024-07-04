@@ -1,6 +1,7 @@
 - Make sure to first install the CLI for GO
-- After installing navigate to the root directory and run the app using ``go run main.go``
-- If you need to install any extra dependencies use ``go get <dependency-url>``
+- After you install the GO CLI be sure to install the default dependencies for the project by using ```bash go mod tidy```
+- Now you are ready to run the application, navigate to the root directory and run the app using ```bash go run main.go```
+- If you need to install any extra dependencies use ```bash go get <dependency-url>```
 
 ## Template structure
 

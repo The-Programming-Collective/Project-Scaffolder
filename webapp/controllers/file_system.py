@@ -15,10 +15,6 @@ class FileSystem:
         os.makedirs(os.path.join(self.rootPath, "temp"), exist_ok=True)
         self.tempPath = os.path.join(self.rootPath, "temp")
 
-    def get_os_path(self, path):
-        split = path.split("/")
-        return os.path.join(self.rootPath, *split)
-
     def allowed_file(self, filename, allowedExtensions):
         return (
             "." in filename and '.'+filename.rsplit(".", 1)[1].lower() in allowedExtensions
@@ -42,7 +38,6 @@ class FileSystem:
             zip_ref.extractall(extract_to_directory)
 
     def traverse_directory(self, root, levels=1):
-        root = self.get_os_path(root)
         if levels == 0:
             return None
 
@@ -54,7 +49,8 @@ class FileSystem:
                     tree[entry.name] = self.traverse_directory(entry.path, levels - 1)
                 else:
                     tree[entry.name] = None
-        except:
+        except Exception as e:
+            print(e)
             return {"error": "Permission denied"}
 
         return tree

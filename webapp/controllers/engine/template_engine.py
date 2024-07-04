@@ -7,7 +7,7 @@ class TemplateEngine:
     def __init__(self) -> None:
         self.templates_dir = os.path.join(os.path.dirname(__file__), "templates")
         
-    def traverse_directory(self, directory_path):
+    def __traverse_directory(self, directory_path):
         project_structure = {}
 
         for root, dirs, files in os.walk(directory_path):
@@ -31,7 +31,7 @@ class TemplateEngine:
         return project_structure
     
     def generate_template(self, directory_path : str):
-        project_structure = self.traverse_directory(directory_path)
+        project_structure = self.__traverse_directory(directory_path)
         project_structure_json = json.dumps(project_structure, indent=4)
         return project_structure_json
 
@@ -63,6 +63,7 @@ class TemplateEngine:
     #    "backend_dependencies": ["swagger"],
     #    "frontend": "react",
     #    "frontend_dependencies": ["react-router-dom", "axios"],
+    #    "containerization": true,
     # }
     
     def render_template(self, request : dict) -> dict:
@@ -89,6 +90,11 @@ class TemplateEngine:
         master["projectName"] = request["projectName"]
         master["backend"] = backend
         master["frontend"] = frontend
-        master["README"] = "This is a test README file"
+        master["README.md"] = "This is a test README file"
+
+        if(request["containerization"]):
+            master["backend"]["Dockerfile"] = self.read_jinja_files(["Dockerfile"], 'backend', request["backend"]).popitem()[1]
+            master["frontend"]["Dockerfile"] = self.read_jinja_files(["Dockerfile"], 'frontend', request["frontend"]).popitem()[1]
+            master["README.md"] += "\n\n-This project is containerized using Docker, in order to use containerization ensure that you have docker installed.\n-To run the backend and frontend, first create a Docker image using the provided Dockerfiles using the following commands:\n\n-For the backend(first navigate to the backend directory):\n\n```docker build -t backend .```\n\n-For the frontend(first navigate to the frontend directory):\n\n```docker build -t frontend .```\n\nAfter creating the images, run the containers using the following commands:\n\n-For the backend:\n\n```docker run -p 5000:5000 backend```\n\n-For the frontend:\n\n```docker run -p 3000:3000 frontend```\n\n-After running the containers, you can access the backend at http://localhost:5000 and the frontend at http://localhost:3000\n\nNote: Ensure that the backend is running before running the frontend."
 
         return master
