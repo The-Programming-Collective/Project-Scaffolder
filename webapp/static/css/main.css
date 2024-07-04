@@ -31,6 +31,10 @@ h3 {
   font-family: 'Martel Sans', sans-serif;
 }
 
+h4{
+  margin-bottom: 2px;
+}
+
 a {
   color: white;
   text-decoration-style: line;
@@ -56,9 +60,35 @@ p {
   border-radius: 10px;
   width: 90%;
   max-width: 1200px;
-  max-height: 750px;
+  max-height: fit-content;
   box-sizing: border-box;
-  height: calc(100vh - 100px); /* Adjust height to fit within the viewport */
+}
+
+.tooltip {
+  content: attr(data-hover);
+  visibility: hidden;
+  opacity: 0;
+  width: 140px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 0;
+  transition: opacity 0.5s ease-in;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 110%;
+}
+
+#container-file:hover ~ .tooltip,
+label[for="container-file"]:hover ~ .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.checkbox-container {
+  position: relative;
 }
 
 .form-section {
@@ -141,7 +171,12 @@ input {
   border: 2px solid white;
   overflow: hidden;
   height: 100%;
-  max-height: 610px;
+}
+
+.gemini-desc{
+  display: flex;
+  flex-direction: column;
+  margin-top: -35px;
 }
 
 .gemini-chat {

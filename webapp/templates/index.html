@@ -68,16 +68,21 @@
                 <a target="_blank" href="https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user" class="hovertext" data-hover="Provide your api key for repo creation">GitHub Api Key</a>
                 <input type="text" placeholder="(optional)">
             </div>
-            <!--<div class="input-group">
-                <div>
+            <div class="input-group">
+                <label for="github-username">Github User-Name</label>
+                <input type="text" id="github-username" placeholder="(optional)">
+            </div>
+            <div class="input-group">
+                <!-- <div>
                     <input type="checkbox" id="download" checked>
                     <label for="download">Download</label>
-                </div>
-                <div>
+                </div> -->
+                <div class="checkbox-container">
                     <input type="checkbox" id="container-file">
                     <label for="container-file">Container File</label>
+                    <span class="tooltip">Add Docker-file (containerization) to project</span>
                 </div>
-            </div>-->
+            </div>
             <form id="upload-form" action="/api/upload" method="post" enctype="multipart/form-data">
                 <div class="file-upload-wrapper">
                     <input id="file-input" class="file-upload-input" type="file" accept="{{allowedUploadExtensions}}" name="file" onchange="">
@@ -93,7 +98,11 @@
             </div>
         </div>
         <div class="chat-section">
-            <h2>Chat with Gemini</h2>
+            <script src="/static/js/chat.js"></script>
+            <div class ="gemini-desc">
+                <h4>Need Assistance with Techstack choice ?</h4>
+                <h2>Chat with Gemini</h2>
+            </div>
             <div class="gemini-chat">
                 <div class="messages" id="gemini-messages"></div>
             </div>
