@@ -23,13 +23,17 @@ Contributions must follow a specific specification to comply with our backend.
 
 ALL IN J2 FORMAT
 
-- Backend frameworks use a default endpoint for the user to ping and see if the application is running properly
-
-`localhost:<port>/health`
+- Backend frameworks use a default endpoint for the user to ping and see if the application is running properly `localhost:<port>/health`
+- Must include a readme file indicating all the used variables in the template and their purpose ( a description and reference variables are required ).
+- A extensive readme file must be provided detailing how to run and how to install new dependencies.
+- A Docker file must be provided.
 
 ### Dependency
 
 ALL IN JSON FORMAT
+
+* All variables that are used in the dependency and not found in the template or the readme file of the framework must be added.
+* All dependencies that require additinal files or code must provide then as variables inside the J2 file.
 
 ## Team members
 
