@@ -30,11 +30,11 @@ class Github:
         response = requests.post(url, headers=self.headers, data=json.dumps(data))
 
         if response.status_code == 201:
-            print(f'Repository {self.repo_name} created successfully!')
+            # print(f'Repository {self.repo_name} created successfully!')
+            return True
         else:
-            print(f'Failed to create repository: {response.json()}')
+            # print(f'Failed to create repository: {response.json()}')
             return False
-        return True
             
     def __create_blob(self, file_path):
         with open(file_path, 'rb') as file:
@@ -48,7 +48,7 @@ class Github:
         if response.status_code == 201:
             return response.json()['sha']
         else:
-            print(f'Failed to create blob for {file_path}: {response.json()}')
+            # print(f'Failed to create blob for {file_path}: {response.json()}')
             return False
     
     def __create_tree(self, blobs):
@@ -68,7 +68,7 @@ class Github:
         if response.status_code == 201:
             return response.json()['sha']
         else:
-            print(f'Failed to create tree: {response.json()}')
+            # print(f'Failed to create tree: {response.json()}')
             return False
             
     def __create_commit(self, tree_sha):
@@ -81,7 +81,7 @@ class Github:
         if response.status_code == 201:
             return response.json()['sha']
         else:
-            print(f'Failed to create commit: {response.json()}')
+            # print(f'Failed to create commit: {response.json()}')
             return False
             
     def __update_reference(self, commit_sha):
@@ -92,11 +92,11 @@ class Github:
         }
         response = requests.patch(url, headers=self.headers, json=data)
         if response.status_code == 200:
-            print(f'Reference updated to new commit SHA: {commit_sha}')
+            # print(f'Reference updated to new commit SHA: {commit_sha}')
+            return True
         else:
-            print(f'Failed to update reference: {response.json()}')
+            # print(f'Failed to update reference: {response.json()}')
             return False
-        return True
 
     def upload_project(self):
         if not self.__create_repo():
@@ -107,13 +107,13 @@ class Github:
                 file_path = os.path.join(root, file)
                 blobs[file_path] = self.__create_blob(file_path)
                 if not blobs[file_path]:
-                    return "Failed to create blob"
+                    raise Exception("Failed to create blob")
         tree_sha = self.__create_tree(blobs)
         if not tree_sha:
-            return "Failed to create tree"
+            raise Exception("Failed to create tree")
         commit_sha = self.__create_commit(tree_sha)
         if not commit_sha:
-            return "Failed to create commit"
+            raise Exception("Failed to create commit")
         if not self.__update_reference(commit_sha):
-            return "Failed to update reference"
+            raise Exception("Failed to update reference")
         return True

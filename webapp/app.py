@@ -9,10 +9,8 @@ project_manager = ProjectManager()
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024
 app.config["UPLOAD_EXTENSIONS"] = [".zip", ".rar"]
 
-
 @app.errorhandler(Exception)
 def handle_exception(e):
-    # If the error is an HTTPException, return its details
     if isinstance(e, HTTPException):
         response = e.get_response()
         response.data = jsonify({
@@ -23,13 +21,11 @@ def handle_exception(e):
         response.content_type = "application/json"
         return response
 
-    # For non-HTTP exceptions, provide a generic response
     return jsonify({
         "code": 500,
         "name": "Internal Server Error",
-        "description": "An internal server error occurred.",
+        "description": "An internal server error occurred",
     }), 500
-
 
 @app.route("/")
 def home():
@@ -51,7 +47,6 @@ def upload_file():
         return jsonify({"error": "File type not allowed"}), 400
     return project_manager.get_project_structure(request.files["file"])
 
-
 @app.route("/api/download", methods=["GET"])
 def generate_project():
     request = {
@@ -69,17 +64,22 @@ def generate_project():
         "description":"testing 12342",
         "is_private":True
     }
-    return Response(
-        project_manager.download_project(request, github),
-        mimetype="application/zip",
-        headers={
-            "Content-Disposition": f'attachment; filename={request["projectName"]}.zip'
-        },
-    )
+    github = None
+    is_created, result = project_manager.download_project(request, github)
+    if is_created:
+        return Response(
+            project_manager.clean_up(result),
+            mimetype="application/zip",
+            headers={
+                "Content-Disposition": f'attachment; filename={request["projectName"]}.zip'
+            },
+        )
+    else:
+        return jsonify({"error": result}), 500
 
 @app.route("/api/supportlist", methods=["GET"])
 def get_supported_frameworks():
     return project_manager.get_supported_stuff(["description", "version"])
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

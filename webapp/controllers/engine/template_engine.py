@@ -99,9 +99,9 @@ class TemplateEngine:
             backend_dockerfile = self.read_jinja_files(["Dockerfile"], 'backend', request["backend"])
             frontend_dockerfile = self.read_jinja_files(["Dockerfile"], 'frontend', request["frontend"])
 
-            backend_dockerfile = self.read_jinja_files(["Dockerfile"], 'backend', request["backend"]).popitem()[1] if backend_dockerfile else "No dockerfile found"
+            backend_dockerfile = backend_dockerfile.popitem()[1] if backend_dockerfile else "No dockerfile found"
 
-            frontend_dockerfile = self.read_jinja_files(["Dockerfile"], 'frontend', request["frontend"]).popitem()[1] if frontend_dockerfile else "No dockerfile found"
+            frontend_dockerfile = frontend_dockerfile.popitem()[1] if frontend_dockerfile else "No dockerfile found"
 
             master["backend"]["Dockerfile"] = backend_dockerfile
             master["frontend"]["Dockerfile"] = frontend_dockerfile
