@@ -1,0 +1,7 @@
+{
+  "mainImports": "github.com/gofiber/storage/postgres/v3",
+  "dependenciesLink": "go get github.com/gofiber/storage/postgres/v3",
+  "appConfig": "store := postgres.New(postgres.Config{\n\tDB:\tdbPool,\n\tTable:\t\"fiber_storage\",\n\tReset:\tfalse,\n\tGCInterval:\t10 * time.Second,\n})",
+  "reference": "https://docs.gofiber.io/storage/postgres/",
+  "description": "PostgreSQL storage for Fiber that provides a simple way to store data in PostgreSQL."
+}

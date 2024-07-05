@@ -29,9 +29,9 @@ class Project_Manager:
                 github_info["files_path"] = directory_path
                 Github(github_info).upload_project()
         except Exception as e:
-            if os.path.exists(directory_path):
+            if directory_path and os.path.exists(directory_path):
                 shutil.rmtree(directory_path)
-            if os.path.exists(file_path):
+            if file_path and os.path.exists(file_path):
                 os.remove(file_path)
             return False, e.args[0]
         

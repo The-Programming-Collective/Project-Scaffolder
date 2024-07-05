@@ -50,7 +50,7 @@ def generate_project():
     request = {
         "projectName": "Testing",
         "backend": "fiber",
-        "backend_dependencies": ["swagger"],
+        "backend_dependencies": ["postgres"],
         "frontend": "react",
         "frontend_dependencies": [],
         "containerization": True,

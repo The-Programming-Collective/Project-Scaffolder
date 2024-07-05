@@ -86,6 +86,7 @@ class Template_Engine:
         frontend_context["dependencies"] = frontend_dependencies
         frontend_context["projectName"] = request["projectName"]
         
+        lol = backend_template.render(backend_context)
         backend = ast.literal_eval(backend_template.render(backend_context))
         frontend = ast.literal_eval(frontend_template.render(frontend_context))
         
