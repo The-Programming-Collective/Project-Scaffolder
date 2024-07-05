@@ -3,7 +3,7 @@
 from jinja2 import Template
 import json, os, ast
 
-class TemplateEngine:
+class Template_Engine:
     def __init__(self) -> None:
         self.templates_dir = os.path.join(os.path.dirname(__file__), "templates")
         
@@ -55,7 +55,7 @@ class TemplateEngine:
                             else:
                                 tree[file_name] = content
         except Exception as e:
-            print(e)
+            # print(e)
             return tree
 
         return tree

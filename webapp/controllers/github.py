@@ -1,7 +1,4 @@
-import json
-import os
-import requests
-import base64
+import json, os, requests, base64
 
 
 class Github:

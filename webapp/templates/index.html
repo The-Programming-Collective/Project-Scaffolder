@@ -10,8 +10,7 @@
         rel="stylesheet">
     <link rel="icon" href="/static/ico/logo.ico" type="image/x-icon">
     <script>
-        let maxContentLength = {{maxContentLength}}
-        let dependencies = {{dependencies}}
+        let maxContentLength = 5655656456
     </script>
     <script src="/static/js/main.js"></script>
 </head>
@@ -31,26 +30,6 @@
 
     <div class="container">
         <div class="form-section">
-            <div class="input-group">
-                <label for="frontend">Front-End</label>
-                <select id="frontend" class="dropdown">
-                    <option selected disabled hidden>Select Frontend</option>
-                    <option value="none"> None </option>
-                    {% for framework in frameworks.frontend %}
-                    <option value={{framework}}>{{ framework }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="input-group">
-                <label for="backend">Back-End</label>
-                <select id="backend" class="dropdown">
-                    <option selected disabled hidden>Select Backend</option>
-                    <option value="none"> None </option>
-                    {% for framework in frameworks.backend %}
-                    <option value={{framework}}>{{ framework }}</option>
-                    {% endfor %}
-                </select>
-            </div>
             <div class="input-group">
                 <label for="dependencies">Dependencies</label>
                 <select id="dependencies" class="dropdown">

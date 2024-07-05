@@ -6,7 +6,7 @@ from decorators.singleton import singleton
 
 
 @singleton
-class FileSystem:
+class File_System:
 
     def __init__(self) -> None:
         self.rootPath = os.path.join(os.path.dirname(__file__))
@@ -15,9 +15,9 @@ class FileSystem:
         os.makedirs(os.path.join(self.rootPath, "temp"), exist_ok=True)
         self.tempPath = os.path.join(self.rootPath, "temp")
 
-    def allowed_file(self, filename, allowedExtensions):
+    def allowed_file(self, file_name, allowed_extensions):
         return (
-            "." in filename and '.'+filename.rsplit(".", 1)[1].lower() in allowedExtensions
+            "." in file_name and '.'+file_name.rsplit(".", 1)[1].lower() in allowed_extensions
         )
 
     def random_file_name(self, length):
@@ -30,12 +30,17 @@ class FileSystem:
         os.mkdir(randFilePath)
         return randName, randFilePath
     
-    def extract_zip_file(self,zip_file_path, extract_to_directory):
-        if not os.path.exists(extract_to_directory):
-            os.makedirs(extract_to_directory)
+    def extract_zip_file(self, zip_file):
+        rand_dir = self.generate_random_directory()[1]
+        file_path = os.path.join(rand_dir, zip_file.filename)
+        dir_path = os.path.join(rand_dir, zip_file.filename.split(".")[0])
+        zip_file.save(file_path)
+        if not os.path.exists(dir_path):
+            os.makedirs(dir_path)
 
-        with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-            zip_ref.extractall(extract_to_directory)
+        with zipfile.ZipFile(file_path, 'r') as zip_ref:
+            zip_ref.extractall(dir_path)
+        return rand_dir, dir_path
 
     def traverse_directory(self, root, levels=1):
         if levels == 0:
@@ -55,11 +60,11 @@ class FileSystem:
 
         return tree
 
-    def generate_files(self, project):
+    def generate_files(self, project_template):
         randName, directory_path = self.generate_random_directory()
 
-        def generate_files_recursive(path, project):
-            for name, content in project.items():
+        def generate_files_recursive(path, project_template):
+            for name, content in project_template.items():
                 if isinstance(content, dict):
                     os.makedirs(os.path.join(path, name), exist_ok=True)
                     generate_files_recursive(os.path.join(path, name), content)
@@ -67,6 +72,6 @@ class FileSystem:
                     with open(os.path.join(path, name), "w") as file:
                         file.write(content)
 
-        generate_files_recursive(directory_path, project)
+        generate_files_recursive(directory_path, project_template)
 
         return randName, directory_path

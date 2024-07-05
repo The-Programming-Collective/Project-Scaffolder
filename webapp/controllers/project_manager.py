@@ -1,15 +1,15 @@
 import os
 import shutil
 
-from controllers.engine.template_engine import TemplateEngine
-from controllers.file_system import FileSystem
+from controllers.engine.template_engine import Template_Engine
+from controllers.file_system import File_System
 from controllers.github import Github
 
 
-class ProjectManager:
+class Project_Manager:
     def __init__(self) -> None:
-        self.file_system = FileSystem()
-        self.template_engine = TemplateEngine()
+        self.file_system = File_System()
+        self.template_engine = Template_Engine()
 
     def generate_project(self, project_template):
         try:
@@ -44,20 +44,15 @@ class ProjectManager:
         shutil.rmtree(generator["directory_path"])
         os.remove(generator["file_path"])
         
-
     def get_project_structure(self, zip_file):
-        randDir = self.file_system.generate_random_directory()[1]
         try:
-            file_path = os.path.join(randDir, zip_file.filename)
-            dir_path = os.path.join(randDir, zip_file.filename.split(".")[0])
-            zip_file.save(file_path)
-            self.file_system.extract_zip_file(file_path, dir_path)
+            rand_dir, dir_path = self.file_system.extract_zip_file(zip_file)
             project_structure = self.template_engine.generate_template(dir_path)
-            shutil.rmtree(randDir)
+            shutil.rmtree(rand_dir)
             return project_structure
         except:
-            if os.path.exists(randDir):
-                shutil.rmtree(randDir)
+            if os.path.exists(rand_dir):
+                shutil.rmtree(rand_dir)
     
     def get_supported_frameworks(self):
         try:

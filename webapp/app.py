@@ -1,42 +1,40 @@
 from http.client import HTTPException
 from flask import Flask, Response, jsonify, render_template, request
-from controllers.file_system import FileSystem
-from controllers.project_manager import ProjectManager
+from controllers.file_system import File_System
+from controllers.project_manager import Project_Manager
 
 app = Flask(__name__)
-filesystem = FileSystem()
-project_manager = ProjectManager()
+filesystem = File_System()
+project_manager = Project_Manager()
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024
 app.config["UPLOAD_EXTENSIONS"] = [".zip", ".rar"]
 
-@app.errorhandler(Exception)
-def handle_exception(e):
-    if isinstance(e, HTTPException):
-        response = e.get_response()
-        response.data = jsonify({
-            "code": e.code,
-            "name": e.name,
-            "description": e.description,
-        }).data
-        response.content_type = "application/json"
-        return response
+# @app.errorhandler(Exception)
+# def handle_exception(e):
+#     if isinstance(e, HTTPException):
+#         response = e.get_response()
+#         response.data = jsonify({
+#             "code": e.code,
+#             "name": e.name,
+#             "description": e.description,
+#         }).data
+#         response.content_type = "application/json"
+#         return response
 
-    return jsonify({
-        "code": 500,
-        "name": "Internal Server Error",
-        "description": "An internal server error occurred",
-    }), 500
+#     return jsonify({
+#         "code": 500,
+#         "name": "Internal Server Error",
+#         "description": "An internal server error occurred",
+#     }), 500
 
 @app.route("/")
 def home():
     data = {
-            "supportedStuff":project_manager.get_supported_stuff(["description", "version"]),
             "allowedUploadExtensions":",".join(app.config["UPLOAD_EXTENSIONS"]),
             "maxContentLength":app.config["MAX_CONTENT_LENGTH"]
         }
     return render_template(
-        "index.html",
-        data
+        "index.html"
     )
 
 @app.route("/api/upload", methods=["POST"])
@@ -82,4 +80,4 @@ def get_supported_frameworks():
     return project_manager.get_supported_stuff(["description", "version"])
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
