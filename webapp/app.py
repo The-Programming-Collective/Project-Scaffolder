@@ -49,8 +49,8 @@ def upload_file():
 def generate_project():
     request = {
         "projectName": "Testing",
-        "backend": "fiber",
-        "backend_dependencies": ["postgres"],
+        "backend": "flask",
+        "backend_dependencies": ['postgres'],
         "frontend": "react",
         "frontend_dependencies": [],
         "containerization": True,

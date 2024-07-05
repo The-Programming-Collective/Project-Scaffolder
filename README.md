@@ -34,6 +34,8 @@ ALL IN JSON FORMAT
 
 * All variables that are used in the dependency and not found in the template or the readme file of the framework must be added.
 * All dependencies that require additinal files or code must provide then as variables inside the J2 file.
+* Make sure to properly escape the offending characters by using a ` \\ ` for example: ` \\n ` instead of ` \n ` and ` \\t ` instead of ` \t `.
+* Special case of escaping offending characters: the dreaded ` " `, use 3 backslashes instead of 2 for example: ` \\\" `instead of ` \\" `.
 
 ## Team members
 

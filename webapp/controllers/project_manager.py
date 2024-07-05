@@ -22,6 +22,7 @@ class Project_Manager:
             return False, e.args[0]
 
     def download_project(self, request, github_info=None):
+        file_handle, file_path, directory_path = "","",""
         try:
             project_template = self.template_engine.render_template(request)
             file_handle, file_path, directory_path = self.generate_project(project_template)
@@ -29,6 +30,7 @@ class Project_Manager:
                 github_info["files_path"] = directory_path
                 Github(github_info).upload_project()
         except Exception as e:
+            print(e)
             if directory_path and os.path.exists(directory_path):
                 shutil.rmtree(directory_path)
             if file_path and os.path.exists(file_path):

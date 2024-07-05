@@ -1,7 +1,7 @@
 # Generates JSON template from existing project and renders jinja if any jinja code exists
 
 from jinja2 import Template
-import json, os, ast
+import json, os, ast, re
 
 class Template_Engine:
     def __init__(self) -> None:
@@ -42,7 +42,7 @@ class Template_Engine:
         try:
             if os.path.exists(path):
                 for entry in os.scandir(path):
-                    if entry.is_file() and ((entry.name.split('.')[0] in files_names) or files_names == []):
+                    if entry.is_file() and ((entry.name.split('.')[0] in files_names)):
                         with open(entry.path, "r") as file:
                             content = file.read()
                             if entry.name == 'Dockerfile':
@@ -55,7 +55,7 @@ class Template_Engine:
                             else:
                                 tree[file_name] = content
         except Exception as e:
-            # print(e)
+            print(e)
             return tree
 
         return tree
@@ -86,7 +86,9 @@ class Template_Engine:
         frontend_context["dependencies"] = frontend_dependencies
         frontend_context["projectName"] = request["projectName"]
         
+
         lol = backend_template.render(backend_context)
+        print(lol)
         backend = ast.literal_eval(backend_template.render(backend_context))
         frontend = ast.literal_eval(frontend_template.render(frontend_context))
         

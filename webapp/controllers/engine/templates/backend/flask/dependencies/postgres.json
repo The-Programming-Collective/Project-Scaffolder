@@ -2,8 +2,8 @@
   "name" : "psycopg2-binary",
   "version" : "*",
   "mainImports" : "import psycopg2",
-  "appConfig" : "#Use this function to connect to your postgres database and retrive the connection when you need it\n get_db():\n    conn = psycopg2.connect(\n        host='localhost',\n        database='mydb',\n        user='myuser',\n        password='mypass'\n    )\n    return conn.cursor()",
+  "appConfig" : "#Use this function to connect to your postgres database and retrive the connection when you need it\\ndef get_db():\\n\\tconn = psycopg2.connect(\\n\\thost='localhost',\\n\\tdatabase='mydb',\\n\\tuser='myuser',\\n\\tpassword='mypass'\\n\\t)\\n\\treturn conn.cursor()",
   "description" : "psycopg2-binary is a database adapter for Python that allows you to connect to PostgreSQL databases",
   "reference" : "https://pypi.org/project/psycopg2-binary/",
-  "readme": "-PostgreSQL: Use the get_db function to connect to your database and retrieve the connection when you need it\n- Make sure to replace the host, database, user, and password with your own values\n- You can use the connection object to execute SQL queries and interact with your database\n- For more information, refer to the official documentation at https://pypi.org/project/psycopg2-binary/"
+  "readme": "-PostgreSQL: Use the get_db function to connect to your database and retrieve the connection when you need it\\n- Make sure to replace the host, database, user, and password with your own values\\n- You can use the connection object to execute SQL queries and interact with your database\\n- For more information, refer to the official documentation at https://pypi.org/project/psycopg2-binary/"
 }

@@ -1,7 +1,7 @@
 {
-  "mainImports":"github.com/gofiber/contrib/jwt\n\tgithub.com/golang-jwt/jwt/v5",
+  "mainImports":"github.com/gofiber/contrib/jwt\n\t\"github.com/golang-jwt/jwt/v5",
   "dependenciesLink": "go get github.com/gofiber/contrib/jwt\ngo get github.com/golang-jwt/jwt/v5",
-  "appConfig" :"app.Use(jwt.New(jwt.Config{\n\t\tSigningKey: []byte(\"secret\"),\n\t}))",
+  "appConfig" :"app.Use(jwt.New(jwt.Config{\n\t\tSigningKey: []byte(`secret`),\n\t}))",
   "reference": "https://docs.gofiber.io/contrib/jwt/",
   "description": "JWT middleware for Fiber that provides a simple way to validate a JWT token from the request headers.",
   "version" : "v5"
