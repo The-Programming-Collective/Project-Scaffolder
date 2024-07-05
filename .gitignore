@@ -4,3 +4,8 @@ site-packages
 *cache*
 webapp/temp/*
 webapp/poetry.lock
+node_modules
+.env
+package-lock.json
+yarn.lock
+logs

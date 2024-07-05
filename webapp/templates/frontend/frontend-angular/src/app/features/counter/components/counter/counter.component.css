@@ -1,0 +1,15 @@
+.counter {
+  text-align: center;
+  color: #ffffff;
+  font-size: medium;
+}
+
+.counter button {
+  background-color: #725ac1;
+  color: #aea0db;
+  margin: 5px;
+  padding: 10px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: #725ac1;
+}
