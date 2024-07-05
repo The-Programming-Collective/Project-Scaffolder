@@ -35,7 +35,7 @@ class TemplateEngine:
         project_structure_json = json.dumps(project_structure, indent=4)
         return project_structure_json
 
-    def read_jinja_files(self, files_names, *args):
+    def read_jinja_files(self, files_names, *args) -> dict:
         path = os.path.join(self.templates_dir, *args)
         tree = {}
 
@@ -45,6 +45,9 @@ class TemplateEngine:
                     if entry.is_file() and ((entry.name.split('.')[0] in files_names) or files_names == []):
                         with open(entry.path, "r") as file:
                             content = file.read()
+                            if entry.name == 'Dockerfile':
+                                tree[entry.name] = content
+                                return tree
                             file_name, extention = entry.name.split('.')
                             # software engineered code 101
                             if(extention == 'json'):
@@ -93,8 +96,15 @@ class TemplateEngine:
         master["README.md"] = "This is a test README file"
 
         if(request["containerization"]):
-            master["backend"]["Dockerfile"] = self.read_jinja_files(["Dockerfile"], 'backend', request["backend"]).popitem()[1]
-            master["frontend"]["Dockerfile"] = self.read_jinja_files(["Dockerfile"], 'frontend', request["frontend"]).popitem()[1]
+            backend_dockerfile = self.read_jinja_files(["Dockerfile"], 'backend', request["backend"])
+            frontend_dockerfile = self.read_jinja_files(["Dockerfile"], 'frontend', request["frontend"])
+
+            backend_dockerfile = self.read_jinja_files(["Dockerfile"], 'backend', request["backend"]).popitem()[1] if backend_dockerfile else "No dockerfile found"
+
+            frontend_dockerfile = self.read_jinja_files(["Dockerfile"], 'frontend', request["frontend"]).popitem()[1] if frontend_dockerfile else "No dockerfile found"
+
+            master["backend"]["Dockerfile"] = backend_dockerfile
+            master["frontend"]["Dockerfile"] = frontend_dockerfile
             master["README.md"] += "\n\n-This project is containerized using Docker, in order to use containerization ensure that you have docker installed.\n-To run the backend and frontend, first create a Docker image using the provided Dockerfiles using the following commands:\n\n-For the backend(first navigate to the backend directory):\n\n```docker build -t backend .```\n\n-For the frontend(first navigate to the frontend directory):\n\n```docker build -t frontend .```\n\nAfter creating the images, run the containers using the following commands:\n\n-For the backend:\n\n```docker run -p 5000:5000 backend```\n\n-For the frontend:\n\n```docker run -p 3000:3000 frontend```\n\n-After running the containers, you can access the backend at http://localhost:5000 and the frontend at http://localhost:3000\n\nNote: Ensure that the backend is running before running the frontend."
 
         return master

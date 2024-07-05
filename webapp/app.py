@@ -51,21 +51,22 @@ def upload_file():
 def generate_project():
     request = {
         "projectName": "Testing",
-        "backend": "javaee10",
-        "backend_dependencies": ["junit"],
+        "backend": "fiber",
+        "backend_dependencies": ["swagger"],
         "frontend": "react",
         "frontend_dependencies": [],
-        "containerization": False,
+        "containerization": True,
     }
-    github = {
-        "token":"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", 
-        "username":"MainUseless",
-        "repo_name":"scaffolding122", 
-        "description":"testing 12342",
-        "is_private":True
-    }
+    # github = {
+    #     "token":"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", 
+    #     "username":"MainUseless",
+    #     "repo_name":"scaffolding122", 
+    #     "description":"testing 12342",
+    #     "is_private":True
+    # }
+    github = None
     return Response(
-        project_manager.download_project(request,github),
+        project_manager.download_project(request, github),
         mimetype="application/zip",
         headers={
             "Content-Disposition": f'attachment; filename={request["projectName"]}.zip'
