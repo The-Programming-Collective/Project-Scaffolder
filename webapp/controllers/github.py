@@ -16,7 +16,6 @@ class Github:
         self.is_private = info["is_private"]
         self.username = info["username"]
         self.files_path = info["files_path"]
-        pass
 
     def __create_repo(self):
 
@@ -34,6 +33,8 @@ class Github:
             print(f'Repository {self.repo_name} created successfully!')
         else:
             print(f'Failed to create repository: {response.json()}')
+            return False
+        return True
             
     def __create_blob(self, file_path):
         with open(file_path, 'rb') as file:
@@ -48,6 +49,7 @@ class Github:
             return response.json()['sha']
         else:
             print(f'Failed to create blob for {file_path}: {response.json()}')
+            return False
     
     def __create_tree(self, blobs):
         url = f'https://api.github.com/repos/{self.username}/{self.repo_name}/git/trees'
@@ -67,6 +69,7 @@ class Github:
             return response.json()['sha']
         else:
             print(f'Failed to create tree: {response.json()}')
+            return False
             
     def __create_commit(self, tree_sha):
         url = f'https://api.github.com/repos/{self.username}/{self.repo_name}/git/commits'
@@ -79,6 +82,7 @@ class Github:
             return response.json()['sha']
         else:
             print(f'Failed to create commit: {response.json()}')
+            return False
             
     def __update_reference(self, commit_sha):
         url = f'https://api.github.com/repos/{self.username}/{self.repo_name}/git/refs/heads/main'
@@ -91,14 +95,25 @@ class Github:
             print(f'Reference updated to new commit SHA: {commit_sha}')
         else:
             print(f'Failed to update reference: {response.json()}')
+            return False
+        return True
 
     def upload_project(self):
-        self.__create_repo()
+        if not self.__create_repo():
+            raise Exception("Failed to create repository")
         blobs = {}
         for root, _, files in os.walk(self.files_path):
             for file in files:
                 file_path = os.path.join(root, file)
                 blobs[file_path] = self.__create_blob(file_path)
+                if not blobs[file_path]:
+                    return "Failed to create blob"
         tree_sha = self.__create_tree(blobs)
+        if not tree_sha:
+            return "Failed to create tree"
         commit_sha = self.__create_commit(tree_sha)
-        self.__update_reference(commit_sha)
+        if not commit_sha:
+            return "Failed to create commit"
+        if not self.__update_reference(commit_sha):
+            return "Failed to update reference"
+        return True

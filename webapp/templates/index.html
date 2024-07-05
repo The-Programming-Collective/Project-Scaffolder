@@ -10,7 +10,8 @@
         rel="stylesheet">
     <link rel="icon" href="/static/ico/logo.ico" type="image/x-icon">
     <script>
-        // let maxContentLength = {{maxContentLength}}
+        let maxContentLength = {{maxContentLength}}
+        let dependencies = {{dependencies}}
     </script>
     <script src="/static/js/main.js"></script>
 </head>
@@ -68,11 +69,15 @@
                 <label for="project-name">Project Name</label>
                 <input type="text" id="project-name" placeholder="Example-Project">
             </div>
-            <div class="input-group">
-                <a target="_blank"
-                    href="https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user"
-                    class="hovertext" data-hover="Provide your api key for repo creation">GitHub Api Key</a>
-                <input type="text" placeholder="(optional)">
+            <div class="buttons">
+                <div class="input-group">
+                    <a target="_blank" href="https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user" class="hovertext" data-hover="Provide your api key for repo creation">GitHub Api Key</a>
+                    <input type="text" placeholder="(optional)">
+                </div>
+                <div class="input-group">
+                    <label for="github-username">Github User-Name</label>
+                    <input type="text" id="github-username" placeholder="(optional)">
+                </div>
             </div>
             <form id="upload-form" action="/api/upload" method="post" enctype="multipart/form-data">
                 <div class="file-upload-wrapper">

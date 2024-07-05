@@ -8,35 +8,40 @@ filesystem = FileSystem()
 project_manager = ProjectManager()
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024
 app.config["UPLOAD_EXTENSIONS"] = [".zip", ".rar"]
-app.config["SUPPORTED_FRAMEWORKS"] = project_manager.get_supported_frameworks()
-app.config["SUPPORTED_DEPENDENCIES"] = project_manager.get_supported_dependencies(["description", "version"])
 
 
 @app.errorhandler(Exception)
-def handle_error(e):
-    code = 500
+def handle_exception(e):
+    # If the error is an HTTPException, return its details
     if isinstance(e, HTTPException):
-        code = e.code
-    elif isinstance(e, FileNotFoundError):
-        code = 404
-    elif isinstance(e, ValueError):
-        code = 400
-    elif isinstance(e, KeyError):
-        code = 404
-    elif isinstance(e, TypeError):
-        code = 400
-    return jsonify(error=str(e)), code
+        response = e.get_response()
+        response.data = jsonify({
+            "code": e.code,
+            "name": e.name,
+            "description": e.description,
+        }).data
+        response.content_type = "application/json"
+        return response
+
+    # For non-HTTP exceptions, provide a generic response
+    return jsonify({
+        "code": 500,
+        "name": "Internal Server Error",
+        "description": "An internal server error occurred.",
+    }), 500
+
 
 @app.route("/")
 def home():
+    data = {
+            "supportedStuff":project_manager.get_supported_stuff(["description", "version"]),
+            "allowedUploadExtensions":",".join(app.config["UPLOAD_EXTENSIONS"]),
+            "maxContentLength":app.config["MAX_CONTENT_LENGTH"]
+        }
     return render_template(
         "index.html",
-        frameworks=app.config["SUPPORTED_FRAMEWORKS"],
-        dependencies=app.config["SUPPORTED_DEPENDENCIES"],
-        allowedUploadExtensions=",".join(app.config["UPLOAD_EXTENSIONS"]),
-        maxContentLength=app.config["MAX_CONTENT_LENGTH"],
+        data
     )
-
 
 @app.route("/api/upload", methods=["POST"])
 def upload_file():
@@ -57,14 +62,13 @@ def generate_project():
         "frontend_dependencies": [],
         "containerization": True,
     }
-    # github = {
-    #     "token":"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", 
-    #     "username":"MainUseless",
-    #     "repo_name":"scaffolding122", 
-    #     "description":"testing 12342",
-    #     "is_private":True
-    # }
-    github = None
+    github = {
+        "token":"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", 
+        "username":"MainUseless",
+        "repo_name":"scaffolding122", 
+        "description":"testing 12342",
+        "is_private":True
+    }
     return Response(
         project_manager.download_project(request, github),
         mimetype="application/zip",
@@ -72,6 +76,10 @@ def generate_project():
             "Content-Disposition": f'attachment; filename={request["projectName"]}.zip'
         },
     )
+
+@app.route("/api/supportlist", methods=["GET"])
+def get_supported_frameworks():
+    return project_manager.get_supported_stuff(["description", "version"])
 
 if __name__ == "__main__":
     app.run(debug=True)
