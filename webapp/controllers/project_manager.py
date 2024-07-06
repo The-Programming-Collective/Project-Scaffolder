@@ -21,25 +21,24 @@ class Project_Manager:
         except Exception as e:
             return False, e.args[0]
 
-    def download_project(self, request, github_info=None):
+    def download_project(self, request):
         file_handle, file_path, directory_path = "","",""
         try:
             project_template = self.template_engine.render_template(request)
             file_handle, file_path, directory_path = self.generate_project(project_template)
-            if github_info:
-                github_info["files_path"] = directory_path
-                Github(github_info).upload_project()
+            if request["github_info"]["api_key"] and request["github_info"]["username"]:
+                request["github_info"]["files_path"] = directory_path
+                Github(request["github_info"]).upload_project()
+            result = {"file_handle" : file_handle, "file_path": file_path, "directory_path": directory_path}
+            return True, result
         except Exception as e:
-            print(e)
+            # print(e)
             if directory_path and os.path.exists(directory_path):
                 shutil.rmtree(directory_path)
             if file_path and os.path.exists(file_path):
                 os.remove(file_path)
             return False, e.args[0]
         
-        result = {"file_handle" : file_handle, "file_path": file_path, "directory_path": directory_path}
-        return True, result
-
     def clean_up(self, generator: dict):
         yield from generator["file_handle"]
         generator["file_handle"].close()
@@ -49,12 +48,14 @@ class Project_Manager:
     def get_project_structure(self, zip_file):
         try:
             rand_dir, dir_path = self.file_system.extract_zip_file(zip_file)
+            if not rand_dir:
+                return {"error": "An error occurred while processing the file"}
             project_structure = self.template_engine.generate_template(dir_path)
             shutil.rmtree(rand_dir)
             return project_structure
-        except:
-            if os.path.exists(rand_dir):
-                shutil.rmtree(rand_dir)
+        except Exception as e:
+            # print(e)
+            return {"error": "An error occurred while processing the file"}
     
     def get_supported_frameworks(self):
         try:
@@ -71,7 +72,7 @@ class Project_Manager:
             for framework_type in all_frameworks:
                 dependencies[framework_type] = {}
                 for framework_name in all_frameworks[framework_type]:
-                    curr_dependencies = self.template_engine.read_jinja_files([],framework_type, framework_name, 'dependencies')
+                    curr_dependencies = self.template_engine.read_jinja_files("all",framework_type, framework_name, 'dependencies')
                     dependencies[framework_type][framework_name] = {}
                     for key,value in curr_dependencies.items():
                         temp = {wanted_key: value.get(wanted_key) for wanted_key in desired_keys if wanted_key in value}

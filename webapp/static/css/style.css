@@ -29,6 +29,11 @@ body {
 	width: 100%;
 }
 
+#backend-deps, #frontend-deps{
+	max-height: 200px;
+	overflow-y: auto;
+}
+
 main {
 	min-height: 100vh;
 	max-height: 100vh;
@@ -138,13 +143,13 @@ nav img {
 	margin-right: 10px;
 }
 
-.scaffold-form #frontend {
+/* .scaffold-form #frontend {
 	margin-right: 10px;
 }
 
 .scaffold-form #backend {
 	margin-right: 10px;
-}
+} */
 .scaffold-form input,
 .scaffold-form select {
 	flex: 1;
@@ -454,5 +459,15 @@ footer {
 }
 
 footer img {
+	padding-top: 10px;
+	position: absolute;
 	height: 7vmin;
+}
+
+footer p {
+	color: white;
+	width: 400px;
+	text-align: center;
+	margin: 0 auto 0 auto;
+	padding-top: 5px;
 }

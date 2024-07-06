@@ -2,7 +2,7 @@
     "src": {
         "app": {
             "routes": {
-                "health.py": "# This is a sample route file\n# it contains the functions and logic for the routes\n# the api variable is the blueprint that is used to register the routes\n\nfrom . import api\n\n# Use annotations to define the endpoint that is going to appended to the prefix defined in the __main__.py file\n@api.route('/health', methods=[\"GET\"])\ndef health_check():\n  return \"App running nicely :)\"\n\n",
+                "health.py": "# This is a sample route file\n# it contains the functions and logic for the routes\n# the api variable is the blueprint that is used to register the routes\n\nfrom . import api\n\n# Use annotations to define the endpoint that is going to appended to the prefix defined in the __main__.py file\n@api.route('/health', methods=[\"GET\"])\ndef health_check():\n  return {\"title\": \"Connected to Flask\"}\n\n",
                 "__init__.py": "from flask import Blueprint\n\n\n# This is a sample route file\n# it contains the blueprint that you will use to register the routes\n# the api variable is the blueprint that will be used to register the routes\napi = Blueprint(\"api\", __name__)\n\nfrom . import health\n"
             },
             "__init__.py": "",

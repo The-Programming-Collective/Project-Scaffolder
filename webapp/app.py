@@ -1,5 +1,4 @@
-from http.client import HTTPException
-from flask import Flask, Response, jsonify, render_template, request
+from flask import Flask, Response, json, jsonify, render_template, request
 from controllers.file_system import File_System
 from controllers.project_manager import Project_Manager
 
@@ -9,32 +8,15 @@ project_manager = Project_Manager()
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024
 app.config["UPLOAD_EXTENSIONS"] = [".zip", ".rar"]
 
-# @app.errorhandler(Exception)
-# def handle_exception(e):
-#     if isinstance(e, HTTPException):
-#         response = e.get_response()
-#         response.data = jsonify({
-#             "code": e.code,
-#             "name": e.name,
-#             "description": e.description,
-#         }).data
-#         response.content_type = "application/json"
-#         return response
-
-#     return jsonify({
-#         "code": 500,
-#         "name": "Internal Server Error",
-#         "description": "An internal server error occurred",
-#     }), 500
-
 
 @app.route("/")
 def home():
     data = {
         "allowedUploadExtensions": ",".join(app.config["UPLOAD_EXTENSIONS"]),
         "maxContentLength": app.config["MAX_CONTENT_LENGTH"],
+        "supported_stuff": project_manager.get_supported_stuff(["description", "version"]),
     }
-    return render_template("index.html")
+    return render_template("index.html",data=data)
 
 
 @app.route("/api/upload", methods=["POST"])
@@ -43,34 +25,38 @@ def upload_file():
         request.files["file"].filename, app.config["UPLOAD_EXTENSIONS"]
     ):
         return jsonify({"error": "File type not allowed"}), 400
-    return project_manager.get_project_structure(request.files["file"])
+    return project_manager.get_project_structure(request.files["file"]), 500
 
 
-@app.route("/api/download", methods=["GET"])
+@app.route("/api/download", methods=["POST"])
 def generate_project():
-    request = {
-        "projectName": "Testing",
-        "backend": "flask",
-        "backend_dependencies": ["postgres"],
-        "frontend": "react",
-        "frontend_dependencies": [],
-        "containerization": True,
-    }
-    github = {
-        "token": "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",
-        "username": "MainUseless",
-        "repo_name": "scaffolding122",
-        "description": "testing 12342",
-        "is_private": True,
-    }
-    github = None
-    is_created, result = project_manager.download_project(request, github)
+    # request = {
+    #     "project_name": "Testing",
+    #     "backend": "flask",
+    #     "backend_dependencies": ["postgres"],
+    #     "frontend": "react",
+    #     "frontend_dependencies": [],
+    #     "containerization": True,
+    #     "github": {
+    #         "api_key": "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",
+    #         "username": "MainUseless",
+    #         "repo_name": "scaffolding122",
+    #         "description": "testing 12342",
+    #         "is_private": True,
+    #     }
+    # }
+    req = json.loads(request.data)
+    if req["project_name"] == "":
+        return jsonify({"error": "Please provide a project name"}), 400
+    if req["frontend"] == "none" and req["backend"] == "none":
+        return jsonify({"error": "Please select a frontend or backend framework"}), 400
+    is_created, result = project_manager.download_project(req)
     if is_created:
         return Response(
             project_manager.clean_up(result),
             mimetype="application/zip",
             headers={
-                "Content-Disposition": f'attachment; filename={request["projectName"]}.zip'
+                "Content-Disposition": f'attachment; filename={req["project_name"]}.zip'
             },
         )
     else:

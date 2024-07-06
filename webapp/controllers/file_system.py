@@ -1,5 +1,6 @@
 import os
 import random
+import shutil
 import string
 import zipfile
 from decorators.singleton import singleton
@@ -32,15 +33,20 @@ class File_System:
     
     def extract_zip_file(self, zip_file):
         rand_dir = self.generate_random_directory()[1]
-        file_path = os.path.join(rand_dir, zip_file.filename)
-        dir_path = os.path.join(rand_dir, zip_file.filename.split(".")[0])
-        zip_file.save(file_path)
-        if not os.path.exists(dir_path):
-            os.makedirs(dir_path)
+        try:
+            file_path = os.path.join(rand_dir, zip_file.filename)
+            dir_path = os.path.join(rand_dir, zip_file.filename.split(".")[0])
+            zip_file.save(file_path)
+            if not os.path.exists(dir_path):
+                os.makedirs(dir_path)
 
-        with zipfile.ZipFile(file_path, 'r') as zip_ref:
-            zip_ref.extractall(dir_path)
-        return rand_dir, dir_path
+            with zipfile.ZipFile(file_path, 'r') as zip_ref:
+                zip_ref.extractall(dir_path)
+            return rand_dir, dir_path
+        except Exception as e:
+            if os.path.exists(rand_dir):
+                shutil.rmtree(rand_dir)
+            return None, None
 
     def traverse_directory(self, root, levels=1):
         if levels == 0:
@@ -55,7 +61,7 @@ class File_System:
                 else:
                     tree[entry.name] = None
         except Exception as e:
-            print(e)
+            # print(e)
             return {"error": "Permission denied"}
 
         return tree

@@ -1,7 +1,7 @@
 {
     "app": {
         "controllers": {
-            "health.go": "package controllers\n\nimport (\n\t\"github.com/gofiber/fiber/v2\"\n)\n\n// To create a new route, we need to create a new function that will be called by the router\n// This function will take a fiber.Ctx as a parameter and return an error\n// The fiber.Ctx is the context of the request, it contains all the information about the request\n// The error will be used to return an error if something goes wrong\n// Function to check the health of the application\nfunc Health(c *fiber.Ctx) error {\n\t// Return a message to the user\n\treturn c.SendString(\"App is running!\")\n}\n"
+            "health.go": "package controllers\n\nimport (\n\t\"github.com/gofiber/fiber/v2\"\n)\n\n// To create a new route, we need to create a new function that will be called by the router\n// This function will take a fiber.Ctx as a parameter and return an error\n// The fiber.Ctx is the context of the request, it contains all the information about the request\n// The error will be used to return an error if something goes wrong\n// Function to check the health of the application\nfunc Health(c *fiber.Ctx) error {\n\t// Return a message to the user\n\treturn c.JSON(&fiber.Map{\"title\": \"Connected to Fiber\"})\n}\n"
         }
     },
     "pkg": {

@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scaffolder</title>
-    <link rel="icon" href="/assets/logo.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <link rel="icon" href="/static/assets/logo.svg">
+    <script>
+        const maxContentLength = {{data.maxContentLength}};
+        const supported_stuff = {{data.supported_stuff|tojson}};
+    </script>
 </head>
 
 <body>
@@ -36,12 +39,9 @@
                         </select>
                     </div>
                     <div class="contribute">
-                        <p class="contribute-desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione
-                            vitae
-                            aspernatur consectetur.
-                            Voluptas corporis eligendi ea asperiores temporibus, nam cum illo beatae nemo iusto alias
-                            dignissimos odio eveniet ipsa repudiandae quaerat placeat dolor magnam, est vitae quidem
-                            incidunt ipsum vero! A quasi libero sit culpa iusto? Distinctio quam doloremque nobis!</p>
+                        <p class="contribute-desc">Contribute to our library of different frameworks and programming languages to help other users out. You can also use this template later on as you like.</p>
+                        <p class="contribute-desc"> Firstly import and existing project (make sure it is in zip file format) and copy the output json.</p>
+                        <p class="contribute-desc">You can add Jinja variables such as the ones in existing templates if you want to enable dynamic templating. Make sure to submit a pull request after creating. Happy coding! </p>
                         <form id="upload-form" action="/api/upload" method="post" enctype="multipart/form-data">
                             <div class="file-upload-wrapper">
                                 <input id="file-input" class="file-upload-input" type="file"
@@ -53,111 +53,46 @@
                             onclick="document.getElementById('file-input').click()">Import</button>
                     </div>
                     <div class="scaffold">
-                        <form class="scaffold-form">
-                            <input type="text" placeholder="Project Name" id="project-name">
+                        <form class="scaffold-form" onsubmit="handleSubmit(event)">
+                            <input type="text" name="project_name" placeholder="Project Name" id="project-name" required>
                             <div class="github">
-                                <input type="text" placeholder="GitHub Username" id="github-username">
-                                <input type="password" placeholder="GitHub Api Key" id="github-api-key">
+                                <input type="text" name="username" placeholder="GitHub Username" id="github-username">
+                                <input type="password" name="api_key" placeholder="GitHub Api Key" id="github-api-key">
                             </div>
-                            <div class="frontend">
-                                <select id="frontend">
-                                    <option value="" disabled selected>Front-End</option>
-                                    <option value="react">React</option>
-                                    <option value="vue">Vue</option>
-                                    <option value="angular">Angular</option>
-                                </select>
-                                <select id="frontend-deps">
-                                    <option value="" disabled selected>Dependencies</option>
-                                    <option value="react">React</option>
-                                    <option value="vue">Vue</option>
-                                    <option value="angular">Angular</option>
-                                </select>
+                            <select required id="frontend" name="frontend" onchange="toggleDependencies(this)">
+                                <option value="" disabled selected hidden>Front-End</option>
+                                <option value="none">None</option>
+                                {% for framework in data.supported_stuff.frontend %}
+                                    <option value={{framework}}>{{ framework }}</option>
+                                {% endfor %}
+                            </select>
+                            <div id="frontend-deps">
                             </div>
                             <div class="backend">
-                                <select id="backend">
-                                    <option value="" disabled selected>Back-End</option>
-                                    <option value="node">Node.js</option>
-                                    <option value="django">Django</option>
-                                    <option value="flask">Flask</option>
+                                <select required id="backend" name="backend" onchange="toggleDependencies(this)">
+                                    <option value="" disabled selected hidden> Back-End</option>
+                                    <option value="none">None</option>
+                                    {% for framework in data.supported_stuff.backend %}
+                                        <option value={{framework}}>{{ framework }}</option>
+                                    {% endfor %}
                                 </select>
-                                <select id="backend-deps">
-                                    <option value="" disabled selected>Database</option>
-                                    <option value="mysql">MySQL</option>
-                                    <option value="postgresql">PostgreSQL</option>
-                                    <option value="mongodb">MongoDB</option>
-                                </select>
+                            </div>
+                            <div id="backend-deps">
                             </div>
                             <div class="cont">
                                 <input type="checkbox" name="containerization" id="containerization">
                                 <label for="containerization">Containerization</label>
                             </div>
-                            <button type="button" id="export">Export</button>
+                            <button type="submit" id="export">Export</button>
                         </form>
                     </div>
                 </div>
                 <div class="right-section">
-                    <div class="contribute-section">
+                    <div class="contribute-section contribute">
                         <div class="contribute-section-cont">
-                            <div class="collapsible">
-                                <div class="collapsible-header" onclick="toggleCollapse(this)">
-                                    <span><i class="fa-solid fa-folder"></i>Lorem ipsum dolor sit amet</span>
-                                </div>
-                                <div class="collapsible-content">
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                </div>
-                            </div>
-                            <div class="collapsible">
-                                <div class="collapsible-header" onclick="toggleCollapse(this)">
-                                    <span><i class="fa-solid fa-folder"></i>Lorem ipsum dolor sit amet</span>
-                                </div>
-                                <div class="collapsible-content">
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                    <div class="item"><i class="fa-solid fa-file"></i>Lorem ipsum dolor sit aetam
-                                        consectetur usemer</div>
-                                </div>
-                            </div>
+                            
                         </div>
-                        <button class="copy">Copy <i class="fa-solid fa-copy"></i></button>
+                        <button class="copy" onclick="copyProjectToClipboard()">Copy <i class="fa-solid fa-copy"></i></button>
                     </div>
                     <div class="chat-section scaffold">
                         <div class="chat-content"></div>
@@ -172,9 +107,12 @@
         </section>
         </div>
         <footer>
-            <a href="https://github.com/The-Programming-Collective/Project-Scaffolder">
+            <a href="https://github.com/The-Programming-Collective/Project-Scaffolder" target="_blank">
                 <img src="../static/assets/github-mark-white.svg" alt="github mark">
             </a>
+            <p>This is a graduation project done by students at Cairo University</p>
+            <p>Supervised by Dr. Sabah Sayed</p>
+            <p>&copy; 2024 The Programming Collective</p>
         </footer>
     </main>
     <script>

@@ -40,6 +40,7 @@ a {
 p {
   margin: 0;
   cursor: pointer;
+  color: white;
 }
 
 #logo {

@@ -5,7 +5,7 @@ class Github:
     def __init__(self, info) -> None:
         self.headers = {
             'Accept': 'application/vnd.github+json',
-            'Authorization': f'Bearer {info["token"]}',
+            'Authorization': f'Bearer {info["api_key"]}',
             'X-GitHub-Api-Version': '2022-11-28'
         }
         self.repo_name = info["repo_name"]
