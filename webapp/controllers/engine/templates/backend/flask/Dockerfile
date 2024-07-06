@@ -1,19 +1,13 @@
-FROM python:3.10-alpine
-
-# Create and set the working directory 'project' should be the name of your project
-WORKDIR /project
-
-# Install dependencies
-RUN pip install poetry
-
-# Copy the entire application code
+FROM debian:12-slim AS builder
+RUN apt-get update && \
+    apt-get install --no-install-suggests --no-install-recommends --yes pipx
+ENV PATH="/root/.local/bin:${PATH}"
+RUN pipx install poetry
+RUN pipx inject poetry poetry-plugin-bundle
+WORKDIR /src
 COPY . .
+RUN poetry bundle venv --python=/usr/bin/python3 --only=main /venv
 
-# Install the application dependencies
-RUN poetry install
-
-# Expose the port your application will run on
-EXPOSE 5000
-
-# Specify the command to run on container start
-CMD ["python", "src/app/__main__.py"]
+FROM gcr.io/distroless/python3-debian12
+COPY --from=builder /venv /venv
+ENTRYPOINT ["/venv/bin/__main__"]

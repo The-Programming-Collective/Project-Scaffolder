@@ -5,5 +5,5 @@
   "appConfig": "#Use this function to connect to your MongoDB database and retrive the connection when you need it\\ndef get_db():\\n\\tclient = MongoClient('localhost', 27017, username='username', password='password')\\n\\treturn client['mydb']\\n # Sample usage\\n # db = get_db() \\n # collection = db['mycollection']\\n # collection.insert_one({'name': 'John Doe', 'email': 'example@email.com'})'\\n",
   "description": "pymongo is a Python driver for MongoDB that allows you to connect to MongoDB databases",
   "reference": "https://pypi.org/project/pymongo/",
-  "readme": "-MongoDB: Use the get_db function to connect to your database and retrieve the connection when you need it\n- Make sure to replace the connection string with your own values\n- You can use the connection object to interact with your database which is named mydb\n- For more information, refer to the official documentation at https://pypi.org/project/pymongo/"
+  "readme": "- MongoDB: Use the get_db function to connect to your database and retrieve the connection when you need it\\n\\tMake sure to replace the connection string with your own values\\n\\tYou can use the connection object to interact with your database which is named mydb\\n\\tFor more information, refer to the official documentation at https://pypi.org/project/pymongo/"
 }

@@ -1,7 +1,7 @@
 {
   "mainImports": "github.com/gofiber/storage/mongodb",
   "dependenciesLink": "go get github.com/gofiber/storage/mongodb",
-  "appConfig" :"store := mongodb.New(mongodb.Config{\n\tHost:\t\"127.0.0.1\",\n\tPort:\t27017,\n\tDatabase:\t\"fiber\",\n\tCollection:\t\"fiber_storage\",\n\tReset:\tfalse,\n})",
+  "appConfig" :"store := mongodb.New(mongodb.Config{\\n\\tHost:\\t\\\"127.0.0.1\\\",\\n\\tPort:\\t27017,\\n\\tDatabase:\\t\\\"fiber\\\",\\n\\tCollection:\\t\\\"fiber_storage\\\",\\n\\tReset:\\tfalse,\\n})",
   "reference": "https://docs.gofiber.io/storage/s3_v1.x.x/mongodb/",
   "description": "MongoDB storage for Fiber that provides a simple way to store data in MongoDB."
 }
