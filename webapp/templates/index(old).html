@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scaffolder</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@200;300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="/static/ico/logo.ico" type="image/x-icon">
+    <script>
+        let maxContentLength = 5655656456
+    </script>
+    <script src="/static/js/main.js"></script>
+</head>
+
+<body>
+    <div>
+        <h1><img id="logo" src="/static/svg/scaffolder.svg"></h1>
+    </div>
+    <h3>
+        Let’s Scaffold!
+        Empower your team's creativity and efficiency with Project Scaffolder.<br>
+        Tired of mundane setup tasks? We automate the groundwork—establishing project structures, configuring
+        environments,<br>
+        and managing dependencies—so you can focus on what matters most:
+        building exceptional software.
+    </h3>
+
+    <div class="container">
+        <div class="form-section">
+            <div class="input-group">
+                <label for="dependencies">Dependencies</label>
+                <select id="dependencies" class="dropdown">
+                    <option selected disabled hidden>Select Dependencies</option>
+                    <option value="dependency1">Dependency 1</option>
+                    <option value="dependency2">Dependency 2</option>
+                    <option value="dependency3">Dependency 3</option>
+                </select>
+            </div>
+            <div class="dependencies" id="selected-dependencies">
+                <!-- Selected dependencies will be appended here -->
+                <a id="deps-placeholder">No dependencies selected</a>
+            </div>
+            <script src="/static/js/deps.js"></script>
+            <div class="input-group">
+                <label for="project-name">Project Name</label>
+                <input type="text" id="project-name" placeholder="Example-Project">
+            </div>
+            <div class="buttons">
+                <div class="input-group">
+                    <a target="_blank" href="https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user" class="hovertext" data-hover="Provide your api key for repo creation">GitHub Api Key</a>
+                    <input type="text" placeholder="(optional)">
+                </div>
+                <div class="input-group">
+                    <label for="github-username">Github User-Name</label>
+                    <input type="text" id="github-username" placeholder="(optional)">
+                </div>
+            </div>
+            <form id="upload-form" action="/api/upload" method="post" enctype="multipart/form-data">
+                <div class="file-upload-wrapper">
+                    <input id="file-input" class="file-upload-input" type="file" accept="{{allowedUploadExtensions}}"
+                        name="file" onchange="">
+                    <div id="error-message" class="error"></div>
+                </div>
+            </form>
+            <div class="buttons">
+                <button type="button" onclick="document.getElementById('file-input').click()">Upload Project</button>
+                <button>Create</button>
+            </div>
+            <div class="buttons">
+                <button id="red" class="hovertext" data-hover="Our github repo for template contribution"><img
+                        src="/static/svg/github.svg" alt="GitHub" class="icon"></button>
+            </div>
+        </div>
+        <div>
+            <label>Unsure what stack to use?</label>
+            <div class="chat-section">
+                <h2>Chat with Gemini</h2>
+                <div class="gemini-chat">
+                    <div class="messages" id="gemini-messages"></div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Type your message...">
+                    <button class="send-button" id="send-gemini-message">➤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/static/js/gemini.js"></script>
+    <script src="/static/js/chat.js"></script>
+</body>
+
+</html>

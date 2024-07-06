@@ -27,15 +27,15 @@ app.config["UPLOAD_EXTENSIONS"] = [".zip", ".rar"]
 #         "description": "An internal server error occurred",
 #     }), 500
 
+
 @app.route("/")
 def home():
     data = {
-            "allowedUploadExtensions":",".join(app.config["UPLOAD_EXTENSIONS"]),
-            "maxContentLength":app.config["MAX_CONTENT_LENGTH"]
-        }
-    return render_template(
-        "index.html"
-    )
+        "allowedUploadExtensions": ",".join(app.config["UPLOAD_EXTENSIONS"]),
+        "maxContentLength": app.config["MAX_CONTENT_LENGTH"],
+    }
+    return render_template("index.html")
+
 
 @app.route("/api/upload", methods=["POST"])
 def upload_file():
@@ -45,22 +45,23 @@ def upload_file():
         return jsonify({"error": "File type not allowed"}), 400
     return project_manager.get_project_structure(request.files["file"])
 
+
 @app.route("/api/download", methods=["GET"])
 def generate_project():
     request = {
         "projectName": "Testing",
         "backend": "flask",
-        "backend_dependencies": ['postgres'],
+        "backend_dependencies": ["postgres"],
         "frontend": "react",
         "frontend_dependencies": [],
         "containerization": True,
     }
     github = {
-        "token":"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", 
-        "username":"MainUseless",
-        "repo_name":"scaffolding122", 
-        "description":"testing 12342",
-        "is_private":True
+        "token": "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",
+        "username": "MainUseless",
+        "repo_name": "scaffolding122",
+        "description": "testing 12342",
+        "is_private": True,
     }
     github = None
     is_created, result = project_manager.download_project(request, github)
@@ -75,9 +76,11 @@ def generate_project():
     else:
         return jsonify({"error": result}), 500
 
+
 @app.route("/api/supportlist", methods=["GET"])
 def get_supported_frameworks():
     return project_manager.get_supported_stuff(["description", "version"])
+
 
 if __name__ == "__main__":
     app.run(debug=True)
