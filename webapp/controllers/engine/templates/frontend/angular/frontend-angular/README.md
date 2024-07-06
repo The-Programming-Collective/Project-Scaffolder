@@ -1,4 +1,4 @@
-# Getting Started with Scaffolder Angular app 🧑‍💻
+# Getting Started with Scaffolder Angular app :technologist:
 
 This project was generated with Scaffolder and [Angular CLI](https://github.com/angular/angular-cli) version 18.0.7.
 
@@ -50,13 +50,13 @@ package.json
 README.md
 ```
 
-## Prerequisites 💀
+## Prerequisites :skull:
 
 - Node.js (v12.x or higher)
 - npm (v6.x or higher) or yarn (v1.x or higher)
 - Angular CLI (version 12.x or later)
 
-### Features 🤜
+### Features :fist_right:
 
 - `State Management with NgRx`: The application uses NgRx for state management, providing a robust and scalable way to manage state in large applications.
 - `API Integration`: The application includes a service to fetch data from an external API, with error handling and fallback mechanisms.
