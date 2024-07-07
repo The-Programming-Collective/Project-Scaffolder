@@ -14,9 +14,11 @@ def home():
     data = {
         "allowedUploadExtensions": ",".join(app.config["UPLOAD_EXTENSIONS"]),
         "maxContentLength": app.config["MAX_CONTENT_LENGTH"],
-        "supported_stuff": project_manager.get_supported_stuff(["description", "version"]),
+        "supported_stuff": project_manager.get_supported_stuff(
+            ["description", "version"]
+        ),
     }
-    return render_template("index.html",data=data)
+    return render_template("index.html", data=data)
 
 
 @app.route("/api/upload", methods=["POST"])

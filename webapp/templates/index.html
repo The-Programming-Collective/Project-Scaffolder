@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="/static/assets/logo.svg">
     <script>
-        const maxContentLength = {{data.maxContentLength}};
-        const supported_stuff = {{data.supported_stuff|tojson}};
+        const maxContentLength = {{ data.maxContentLength }};
+        const supported_stuff = {{ data.supported_stuff| tojson}};
     </script>
 </head>
 
@@ -39,9 +39,13 @@
                         </select>
                     </div>
                     <div class="contribute">
-                        <p class="contribute-desc">Contribute to our library of different frameworks and programming languages to help other users out. You can also use this template later on as you like.</p>
-                        <p class="contribute-desc"> Firstly import and existing project (make sure it is in zip file format) and copy the output json.</p>
-                        <p class="contribute-desc">You can add Jinja variables such as the ones in existing templates if you want to enable dynamic templating. Make sure to submit a pull request after creating. Happy coding! </p>
+                        <p class="contribute-desc">Contribute to our library of different frameworks and programming
+                            languages to help other users out. You can also use this template later on as you like.</p>
+                        <p class="contribute-desc"> Firstly import and existing project (make sure it is in zip file
+                            format) and copy the output json.</p>
+                        <p class="contribute-desc">You can add Jinja variables such as the ones in existing templates if
+                            you want to enable dynamic templating. Make sure to submit a pull request after creating.
+                            Happy coding! </p>
                         <form id="upload-form" action="/api/upload" method="post" enctype="multipart/form-data">
                             <div class="file-upload-wrapper">
                                 <input id="file-input" class="file-upload-input" type="file"
@@ -54,7 +58,8 @@
                     </div>
                     <div class="scaffold">
                         <form class="scaffold-form" onsubmit="handleSubmit(event)">
-                            <input type="text" name="project_name" placeholder="Project Name" id="project-name" required>
+                            <input type="text" name="project_name" placeholder="Project Name" id="project-name"
+                                required>
                             <div class="github">
                                 <input type="text" name="username" placeholder="GitHub Username" id="github-username">
                                 <input type="password" name="api_key" placeholder="GitHub Api Key" id="github-api-key">
@@ -63,7 +68,7 @@
                                 <option value="" disabled selected hidden>Front-End</option>
                                 <option value="none">None</option>
                                 {% for framework in data.supported_stuff.frontend %}
-                                    <option value={{framework}}>{{ framework }}</option>
+                                <option value={{framework}}>{{ framework }}</option>
                                 {% endfor %}
                             </select>
                             <div id="frontend-deps">
@@ -73,7 +78,7 @@
                                     <option value="" disabled selected hidden> Back-End</option>
                                     <option value="none">None</option>
                                     {% for framework in data.supported_stuff.backend %}
-                                        <option value={{framework}}>{{ framework }}</option>
+                                    <option value={{framework}}>{{ framework }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -90,9 +95,10 @@
                 <div class="right-section">
                     <div class="contribute-section contribute">
                         <div class="contribute-section-cont">
-                            
+
                         </div>
-                        <button class="copy" onclick="copyProjectToClipboard()">Copy <i class="fa-solid fa-copy"></i></button>
+                        <button class="copy" onclick="copyProjectToClipboard()">Copy <i
+                                class="fa-solid fa-copy"></i></button>
                     </div>
                     <div class="chat-section scaffold">
                         <div class="chat-content"></div>
@@ -110,9 +116,12 @@
             <a href="https://github.com/The-Programming-Collective/Project-Scaffolder" target="_blank">
                 <img src="../static/assets/github-mark-white.svg" alt="github mark">
             </a>
-            <p>This is a graduation project done by students at Cairo University</p>
-            <p>Supervised by Dr. Sabah Sayed</p>
+            <span></span>
+            <span></span>
             <p>&copy; 2024 The Programming Collective</p>
+            <p class="grad">This is a graduation project done by students at Cairo University <br>
+                <span>Supervised by Dr. Sabah Sayed</span>
+            </p>
         </footer>
     </main>
     <script>
