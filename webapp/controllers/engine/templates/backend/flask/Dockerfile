@@ -1,13 +1,27 @@
-FROM debian:12-slim AS builder
-RUN apt-get update && \
-    apt-get install --no-install-suggests --no-install-recommends --yes pipx
-ENV PATH="/root/.local/bin:${PATH}"
-RUN pipx install poetry
-RUN pipx inject poetry poetry-plugin-bundle
-WORKDIR /src
-COPY . .
-RUN poetry bundle venv --python=/usr/bin/python3 --only=main /venv
+# The builder image, used to build the virtual environment
+FROM python:3.10-buster as builder
 
-FROM gcr.io/distroless/python3-debian12
-COPY --from=builder /venv /venv
-ENTRYPOINT ["/venv/bin/__main__"]
+RUN pip install poetry
+
+ENV POETRY_NO_INTERACTION=1 \
+    POETRY_VIRTUALENVS_IN_PROJECT=1 \
+    POETRY_VIRTUALENVS_CREATE=1 \
+    POETRY_CACHE_DIR=/tmp/poetry_cache
+
+WORKDIR /poetry
+
+COPY pyproject.toml ./
+
+RUN poetry install --no-root && rm -rf $POETRY_CACHE_DIR
+
+# The runtime image, used to just run the code provided its virtual environment
+FROM python:3.10-slim-buster as runtime
+
+ENV VIRTUAL_ENV=/poetry/.venv \
+    PATH="/poetry/.venv/bin:$PATH"
+
+COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+
+COPY src ./src
+
+ENTRYPOINT ["python", "src/app/__main__.py"]
