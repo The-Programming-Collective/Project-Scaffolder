@@ -54,7 +54,7 @@ class Project_Manager:
             shutil.rmtree(rand_dir)
             return project_structure
         except Exception as e:
-            # print(e)
+            print(e)
             return {"error": "An error occurred while processing the file"}
     
     def get_supported_frameworks(self):

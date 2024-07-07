@@ -25,7 +25,7 @@ def upload_file():
         request.files["file"].filename, app.config["UPLOAD_EXTENSIONS"]
     ):
         return jsonify({"error": "File type not allowed"}), 400
-    return project_manager.get_project_structure(request.files["file"]), 500
+    return project_manager.get_project_structure(request.files["file"]), 200
 
 
 @app.route("/api/download", methods=["POST"])
