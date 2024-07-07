@@ -1,7 +1,7 @@
 {
     "groupId": "org.junit.jupiter",
     "artifactId": "junit-jupiter-engine",
-    "version": "${junit.version}",
+    "version": "5.11.0-M2",
     "scope": "test",
     "description" : "The goal is to create an up-to-date foundation for developer-side testing on the JVM. This includes focusing on Java 8 and above, as well as enabling many different styles of testing."
 }
